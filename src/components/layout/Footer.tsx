@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, MessageCircle } from "lucide-react";
+import QuickLinks from "@/components/ui/quick-links";
 
 const Footer = () => {
   return (
@@ -11,8 +12,8 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center">
-              <img 
-                src="/lovable-uploads/daf0e64c-0daa-47c0-b0f5-c3ed2ef7fabb.png" 
+                      <img
+          src="/labelogic-logo.png" 
                 alt="Labelogic Logo" 
                 className="h-12"
               />
@@ -61,26 +62,7 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-brand-black text-lg">Quick Links</h3>
-            <div className="space-y-2">
-              <Link to="/" className="block text-brand-black/80 hover:text-brand-purple transition-colors duration-200">
-                Home
-              </Link>
-              <Link to="/search-examples" className="block text-brand-black/80 hover:text-brand-purple transition-colors duration-200">
-                Search Examples
-              </Link>
-              <Link to="/about-us" className="block text-brand-black/80 hover:text-brand-purple transition-colors duration-200">
-                About Us
-              </Link>
-              <Link to="/contact-us" className="block text-brand-black/80 hover:text-brand-purple transition-colors duration-200">
-                Contact Us
-              </Link>
-              <Link to="/subscriptions" className="block text-brand-black/80 hover:text-brand-purple transition-colors duration-200">
-                Subscriptions
-              </Link>
-            </div>
-          </div>
+          <QuickLinks variant="footer" />
 
           {/* Support */}
           <div className="space-y-4">

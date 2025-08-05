@@ -127,6 +127,84 @@ export default {
 					'50%': {
 						opacity: '0.8'
 					}
+				},
+				'float': {
+					'0%, 100%': {
+						transform: 'translateY(0px)'
+					},
+					'50%': {
+						transform: 'translateY(-20px)'
+					}
+				},
+				'pulse-brand': {
+					'0%, 100%': {
+						opacity: '1',
+						transform: 'scale(1)'
+					},
+					'50%': {
+						opacity: '0.8',
+						transform: 'scale(1.05)'
+					}
+				},
+				'slide-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateX(-100%)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateX(0)'
+					}
+				},
+				'count-up': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(20px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'typing': {
+					'0%': {
+						width: '0'
+					},
+					'100%': {
+						width: '100%'
+					}
+				},
+				'blink': {
+					'0%, 40%': {
+						opacity: '1'
+					},
+					'41%, 100%': {
+						opacity: '0'
+					}
+				},
+				'ripple': {
+					'0%': {
+						transform: 'scale(0)',
+						opacity: '1'
+					},
+					'100%': {
+						transform: 'scale(4)',
+						opacity: '0'
+					}
+				},
+				'neural-network': {
+					'0%': {
+						opacity: '0.3',
+						transform: 'scale(0.8)'
+					},
+					'50%': {
+						opacity: '1',
+						transform: 'scale(1.2)'
+					},
+					'100%': {
+						opacity: '0.3',
+						transform: 'scale(0.8)'
+					}
 				}
 			},
 			animation: {
@@ -134,7 +212,15 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'counter': 'counter 0.8s ease-out forwards',
 				'fade-in': 'fade-in 0.5s ease-out forwards',
-				'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite'
+				'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite',
+				'float': 'float 6s ease-in-out infinite',
+				'pulse-brand': 'pulse-brand 2s ease-in-out infinite',
+				'slide-in': 'slide-in 0.5s ease-out',
+				'count-up': 'count-up 2s ease-out',
+				'typing': 'typing 3s steps(40, end)',
+				'blink': 'blink 0.8s infinite',
+				'ripple': 'ripple 0.6s ease-out',
+				'neural-network': 'neural-network 2s ease-in-out infinite'
 			}
 		}
 	},

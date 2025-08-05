@@ -1,0 +1,142 @@
+/* About Us Page Custom Styles */
+
+.heroSection {
+  background: linear-gradient(135deg, #FEF7CD 0%, #FEF7CD 50%, #FFFFFF 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.gridPattern {
+  background-image: 
+    linear-gradient(rgba(155, 135, 245, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155, 135, 245, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.3;
+}
+
+.timelineLine {
+  background: linear-gradient(to bottom, #9b87f5 0%, #9b87f5 100%);
+  position: absolute;
+  width: 2px;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.timelineDot {
+  background: #9b87f5;
+  border: 4px solid white;
+  box-shadow: 0 4px 12px rgba(155, 135, 245, 0.3);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.teamCard {
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.teamCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.testimonialCard {
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.testimonialCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.missionCard {
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.missionCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.contactForm {
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.contactForm:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .timelineLine {
+    left: 16px;
+    transform: none;
+  }
+  
+  .timelineDot {
+    left: 16px;
+    transform: none;
+  }
+}
+
+/* Animation for stats */
+.statNumber {
+  animation: counter 2s ease-out forwards;
+}
+
+@keyframes counter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover effects for social links */
+.socialLink {
+  transition: all 0.2s ease;
+}
+
+.socialLink:hover {
+  transform: scale(1.1);
+  color: #9b87f5;
+}
+
+/* Focus styles for accessibility */
+.focusVisible {
+  outline: 2px solid #9b87f5;
+  outline-offset: 2px;
+}
+
+/* Loading state for form submission */
+.formLoading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Success state for form submission */
+.formSuccess {
+  background-color: #10B981;
+  color: white;
+} 

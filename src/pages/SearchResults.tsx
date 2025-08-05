@@ -5,7 +5,8 @@ import SearchHeader from "@/components/search/SearchHeader";
 import SearchFilters from "@/components/search/SearchFilters";
 import ProductCard, { Product } from "@/components/search/ProductCard";
 import Footer from "@/components/layout/Footer";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { 
   Select,
   SelectContent,
@@ -14,263 +15,207 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { 
+  Filter, 
+  SortAsc, 
+  Bookmark, 
+  BookmarkCheck,
+  Smartphone,
+  Battery,
+  Star,
+  TrendingUp,
+  AlertCircle,
+  Search,
+  ArrowUp
+} from "lucide-react";
 
-// Enhanced mock data for products with detailed insights
-const mockProducts: Product[] = [
+// Samsung phones under ₹30,000 with good battery - Mock data
+const samsungPhones: Product[] = [
   {
-    id: "1",
-    name: "boAt Airdopes 141 TWS Earbuds",
-    brand: "boAt",
-    image: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=800&auto=format&fit=crop",
-    category: "Electronics",
-    description: "TWS Earbuds with 42H Playtime, Beast Mode(Low Latency Upto 80ms) for Gaming, ENx Tech, ASAP Charge, IWP, IPX4 Water Resistance, Smooth Touch Controls(Bold Black)",
+    id: "samsung-1",
+    name: "Samsung Galaxy M34 5G",
+    brand: "Samsung",
+    image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800&auto=format&fit=crop",
+    category: "Smartphones",
+    description: "6.5\" FHD+ sAMOLED Display, 6000mAh Battery, 50MP Triple Camera, 5G Ready, 128GB Storage",
     prices: [
-      { store: "Flipkart", price: "1299", link: "#" },
-      { store: "Amazon.in", price: "1499", link: "#" },
-      { store: "boAt", price: "1599", link: "#" }
+      { store: "Flipkart", price: "18999", link: "#" },
+      { store: "Amazon.in", price: "19999", link: "#" },
+      { store: "Samsung Shop", price: "18999", link: "#" }
     ],
-    reviewCount: 18456,
-    rating: 4.3,
+    reviewCount: 12456,
+    rating: 4.4,
     sentiment: {
-      positive: 0.74,
-      neutral: 0.20,
-      negative: 0.06,
-      overall: 0.68
+      positive: 0.78,
+      neutral: 0.18,
+      negative: 0.04,
+      overall: 0.74
     },
-    keyPhrases: ["Battery life", "Sound quality", "Value for money", "Build quality"],
-    lastUpdated: "2 days ago",
+    keyPhrases: ["6000mAh battery", "5G connectivity", "AMOLED display", "Good camera"],
+    lastUpdated: "1 day ago",
+    specs: {
+      battery: "6000mAh",
+      display: "6.5\" FHD+ sAMOLED",
+      camera: "50MP Triple Camera",
+      storage: "128GB",
+      ram: "8GB"
+    },
     insights: {
       positive: [
-        "Impressive battery life with 42 hours of playback",
-        "Good sound quality for the price point",
-        "Excellent value for money at ₹1,299",
-        "Comfortable fit for extended wear",
-        "Quick charging capability is convenient"
+        "Excellent 6000mAh battery lasts 2 days",
+        "5G connectivity future-proofs the device",
+        "AMOLED display with 120Hz refresh rate",
+        "Good camera performance for the price"
       ],
       neutral: [
-        "Average microphone quality for calls",
-        "Standard design similar to other earbuds",
-        "Touch controls can be finicky at times"
+        "Plastic build but feels premium",
+        "OneUI is feature-rich but has bloatware"
       ],
       negative: [
-        "Build quality feels slightly cheap",
-        "Occasional connectivity issues reported",
-        "Bass could be stronger for bass enthusiasts"
-      ],
-      byFeature: {
-        "Battery": {
-          positive: ["Long battery life of 42 hours", "Quick charging is very useful"],
-          negative: ["Battery indicator can be inaccurate"]
-        },
-        "Sound": {
-          positive: ["Clear sound with good treble", "Balanced audio profile"],
-          negative: ["Bass could be stronger", "Audio leakage at high volumes"]
-        },
-        "Design": {
-          positive: ["Comfortable for long wear", "Lightweight design"],
-          negative: ["Build feels somewhat cheap", "Case is bulkier than competitors"]
-        },
-        "Price": {
-          positive: ["Excellent value for money", "Often available on sale"],
-          negative: []
-        },
-        "Comfort": {
-          positive: ["Comfortable for extended wear", "Multiple ear tip sizes included"],
-          negative: ["Can become uncomfortable after 3+ hours"]
-        }
-      }
+        "Charging speed could be faster",
+        "No wireless charging at this price"
+      ]
     }
   },
   {
-    id: "2",
-    name: "Noise ColorFit Pro 3 Smart Watch",
-    brand: "Noise",
-    image: "https://images.unsplash.com/photo-1615540732409-324643693fac?w=800&auto=format&fit=crop",
-    category: "Electronics",
-    description: "Noise ColorFit Pro 3 with 1.55\" HD Display, 10 Day Battery, 60 Sports Modes, SpO2, Heart Rate, Sleep, Stress Monitor & IP68 Waterproof (Jet Black)",
+    id: "samsung-2",
+    name: "Samsung Galaxy F14 5G",
+    brand: "Samsung",
+    image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800&auto=format&fit=crop",
+    category: "Smartphones",
+    description: "6.6\" FHD+ Display, 6000mAh Battery, 50MP Camera, 5G, 128GB Storage, Android 13",
     prices: [
-      { store: "Amazon.in", price: "2999", link: "#" },
-      { store: "Reliance Digital", price: "3499", link: "#" },
-      { store: "Croma", price: "3299", link: "#" }
+      { store: "Flipkart", price: "15999", link: "#" },
+      { store: "Amazon.in", price: "16999", link: "#" },
+      { store: "Croma", price: "16499", link: "#" }
     ],
-    reviewCount: 14523,
+    reviewCount: 8923,
     rating: 4.2,
     sentiment: {
-      positive: 0.71,
+      positive: 0.72,
       neutral: 0.22,
-      negative: 0.07,
-      overall: 0.64
+      negative: 0.06,
+      overall: 0.66
     },
-    keyPhrases: ["Battery life", "Display quality", "Health tracking", "Comfort"],
-    lastUpdated: "3 days ago",
+    keyPhrases: ["6000mAh battery", "5G ready", "Good value", "Reliable performance"],
+    lastUpdated: "2 days ago",
+    specs: {
+      battery: "6000mAh",
+      display: "6.6\" FHD+",
+      camera: "50MP Camera",
+      storage: "128GB",
+      ram: "6GB"
+    },
     insights: {
       positive: [
-        "Excellent battery life lasting 7-10 days",
-        "Bright and clear 1.55\" display",
-        "Comprehensive health tracking features",
-        "Good value for the price point",
-        "Comfortable for all-day wear"
+        "6000mAh battery provides excellent endurance",
+        "5G connectivity for future use",
+        "Good value for money at ₹15,999",
+        "Reliable performance for daily tasks"
       ],
       neutral: [
-        "Average build quality compared to premium watches",
-        "Health metrics reasonably accurate but not medical-grade",
-        "App interface could be more intuitive"
+        "Standard design, nothing special",
+        "Camera is decent but not exceptional"
       ],
       negative: [
-        "Some users report syncing issues with the app",
-        "Heart rate monitor occasionally inaccurate",
-        "Limited third-party app integration"
-      ],
-      byFeature: {
-        "Battery": {
-          positive: ["Long battery life of 7-10 days", "Fast charging capability"],
-          negative: ["Battery life decreases with all features enabled"]
-        },
-        "Sound": {
-          positive: [],
-          negative: []
-        },
-        "Design": {
-          positive: ["Sleek modern appearance", "Durable IP68 waterproofing"],
-          negative: ["Screen scratches relatively easily"]
-        },
-        "Price": {
-          positive: ["Good value compared to similar smartwatches", "Affordable price point"],
-          negative: []
-        },
-        "Comfort": {
-          positive: ["Lightweight and comfortable for all-day wear", "Adjustable strap"],
-          negative: ["Some users report skin irritation after prolonged wear"]
-        }
-      }
+        "15W charging is slow for 6000mAh battery",
+        "Display could be brighter outdoors"
+      ]
     }
   },
   {
-    id: "3",
-    name: "Sony WH-1000XM4 Wireless Noise Cancelling Headphones",
-    brand: "Sony",
-    image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop",
-    category: "Electronics",
-    description: "Industry-leading noise cancellation with Dual Noise Sensor technology, exceptional sound quality with HD Noise Cancelling Processor QN1.",
-    prices: [
-      { store: "Flipkart", price: "24999", link: "#" },
-      { store: "Amazon.in", price: "25990", link: "#" },
-      { store: "Croma", price: "26999", link: "#" }
-    ],
-    reviewCount: 12876,
-    rating: 4.7,
-    sentiment: {
-      positive: 0.82,
-      neutral: 0.15,
-      negative: 0.03,
-      overall: 0.79
-    },
-    keyPhrases: ["Noise cancellation", "Battery life", "Sound quality", "Comfortable"],
-    lastUpdated: "1 week ago",
-    insights: {
-      positive: [
-        "Industry-leading noise cancellation performance",
-        "Exceptional sound quality across all frequencies",
-        "Comfortable for extended listening sessions",
-        "Impressive 30-hour battery life",
-        "Intuitive touch controls and app integration"
-      ],
-      neutral: [
-        "Premium price point may not be for everyone",
-        "Limited color options available",
-        "No significant improvement in design from previous model"
-      ],
-      negative: [
-        "Occasional connection issues when switching between devices",
-        "Expensive compared to competitors",
-        "Cannot use while charging"
-      ],
-      byFeature: {
-        "Battery": {
-          positive: ["30-hour battery life is excellent", "Quick charging provides hours of playback in minutes"],
-          negative: ["Cannot use while charging"]
-        },
-        "Sound": {
-          positive: ["Exceptional sound quality", "Great balance across all frequencies", "Customizable EQ"],
-          negative: ["Default sound profile may be too bass-heavy for some"]
-        },
-        "Design": {
-          positive: ["Premium build quality", "Foldable design for portability"],
-          negative: ["Limited color options available"]
-        },
-        "Price": {
-          positive: ["Worth the investment for audiophiles"],
-          negative: ["Premium pricing makes it expensive compared to competitors"]
-        },
-        "Comfort": {
-          positive: ["Very comfortable for extended wear", "Lightweight for its size"],
-          negative: ["Ear cups can get warm during long sessions"]
-        }
-      }
-    }
-  },
-  {
-    id: "4",
-    name: "Samsung Galaxy S22 Ultra 256GB",
+    id: "samsung-3",
+    name: "Samsung Galaxy A14 5G",
     brand: "Samsung",
-    image: "https://images.unsplash.com/photo-1644677986236-d9c66746fb08?w=800&auto=format&fit=crop",
-    category: "Electronics",
-    description: "The Samsung Galaxy S22 Ultra features an embedded S Pen, Nightography camera with 108MP main sensor, and a 6.8-inch Dynamic AMOLED 2X display.",
+    image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800&auto=format&fit=crop",
+    category: "Smartphones",
+    description: "6.6\" FHD+ Display, 5000mAh Battery, 50MP Triple Camera, 5G, 128GB Storage",
     prices: [
-      { store: "Flipkart", price: "74999", link: "#" },
-      { store: "Amazon.in", price: "76990", link: "#" },
-      { store: "Samsung Shop", price: "72999", link: "#" }
+      { store: "Flipkart", price: "13999", link: "#" },
+      { store: "Amazon.in", price: "14999", link: "#" },
+      { store: "Reliance Digital", price: "14499", link: "#" }
     ],
-    reviewCount: 7532,
-    rating: 4.6,
+    reviewCount: 15678,
+    rating: 4.1,
     sentiment: {
-      positive: 0.77,
-      neutral: 0.18,
-      negative: 0.05,
-      overall: 0.72
+      positive: 0.68,
+      neutral: 0.26,
+      negative: 0.06,
+      overall: 0.62
     },
-    keyPhrases: ["Camera quality", "S Pen", "Display", "Battery"],
-    lastUpdated: "1 week ago",
+    keyPhrases: ["5000mAh battery", "5G connectivity", "Budget friendly", "Good camera"],
+    lastUpdated: "3 days ago",
+    specs: {
+      battery: "5000mAh",
+      display: "6.6\" FHD+",
+      camera: "50MP Triple Camera",
+      storage: "128GB",
+      ram: "6GB"
+    },
     insights: {
       positive: [
-        "Exceptional camera quality especially in low light",
-        "Bright, vibrant Dynamic AMOLED 2X display",
-        "S Pen integration is seamless and useful",
-        "Premium build quality and design",
-        "Powerful performance for all tasks"
+        "5000mAh battery lasts a full day easily",
+        "5G connectivity included",
+        "Good camera for the price point",
+        "Budget-friendly option"
       ],
       neutral: [
-        "Battery life is adequate but not spectacular",
-        "OneUI has improved but still has some bloatware",
-        "Expensive but competitive with similar flagship phones"
+        "Performance is adequate for basic tasks",
+        "Design is standard Samsung"
       ],
       negative: [
-        "Battery drains quickly with heavy use",
-        "Heating issues during intensive gaming",
-        "Very expensive price point"
+        "Battery could be larger like M34",
+        "Charging speed is only 15W"
+      ]
+    }
+  }
+];
+
+// Other phones under ₹30,000 (fallback)
+const otherPhones: Product[] = [
+  {
+    id: "other-1",
+    name: "Redmi Note 12 Pro 5G",
+    brand: "Xiaomi",
+    image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800&auto=format&fit=crop",
+    category: "Smartphones",
+    description: "6.67\" AMOLED Display, 5000mAh Battery, 50MP Camera, 5G, 128GB Storage",
+    prices: [
+      { store: "Flipkart", price: "19999", link: "#" },
+      { store: "Amazon.in", price: "20999", link: "#" }
+    ],
+    reviewCount: 23456,
+    rating: 4.3,
+    sentiment: {
+      positive: 0.75,
+      neutral: 0.20,
+      negative: 0.05,
+      overall: 0.70
+    },
+    keyPhrases: ["5000mAh battery", "AMOLED display", "Good camera", "5G ready"],
+    lastUpdated: "1 day ago",
+    specs: {
+      battery: "5000mAh",
+      display: "6.67\" AMOLED",
+      camera: "50MP Camera",
+      storage: "128GB",
+      ram: "8GB"
+    },
+    insights: {
+      positive: [
+        "5000mAh battery with 67W fast charging",
+        "AMOLED display with 120Hz refresh rate",
+        "Good camera performance",
+        "5G connectivity included"
       ],
-      byFeature: {
-        "Battery": {
-          positive: ["Fast charging capability", "Wireless charging support"],
-          negative: ["Battery drains quickly with heavy use", "Not as long-lasting as advertised"]
-        },
-        "Sound": {
-          positive: ["Good stereo speaker quality", "Clear call quality"],
-          negative: ["No headphone jack"]
-        },
-        "Design": {
-          positive: ["Premium build with Gorilla Glass", "Elegant design", "S Pen integration is seamless"],
-          negative: ["Large size can be difficult to handle", "Quite heavy compared to other phones"]
-        },
-        "Price": {
-          positive: ["Premium features justify the price for some users"],
-          negative: ["Very expensive compared to non-flagship alternatives"]
-        },
-        "Comfort": {
-          positive: ["S Pen is comfortable to use"],
-          negative: ["Large size can be uncomfortable for one-handed use"]
-        }
-      }
+      neutral: [
+        "MIUI has ads but is feature-rich",
+        "Performance is good for the price"
+      ],
+      negative: [
+        "MIUI bloatware can be annoying",
+        "Camera could be better in low light"
+      ]
     }
   }
 ];
@@ -282,77 +227,193 @@ const SearchResults = () => {
   const [sortBy, setSortBy] = useState("relevance");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const [bookmarkedProducts, setBookmarkedProducts] = useState<string[]>([]);
+
+  // Check if search is for Samsung phones under ₹30,000
+  const isSamsungSearch = query.toLowerCase().includes('samsung') && 
+    query.toLowerCase().includes('₹30,000') && 
+    query.toLowerCase().includes('battery');
 
   useEffect(() => {
-    // Simulating API call to fetch search results
     setIsLoading(true);
     
     setTimeout(() => {
-      // In a real app, we would filter based on the query and filters
-      setFilteredProducts(mockProducts);
+      if (isSamsungSearch) {
+        setFilteredProducts(samsungPhones);
+      } else {
+        // Show other phones if no Samsung matches
+        setFilteredProducts(otherPhones);
+      }
       setIsLoading(false);
     }, 1000);
-  }, [query, filters]);
+  }, [query, filters, isSamsungSearch]);
 
   const handleFilterChange = (newFilters: any) => {
     setFilters(newFilters);
   };
 
+  const handleSortChange = (value: string) => {
+    setSortBy(value);
+    // Apply sorting logic here
+  };
+
+  const toggleProductSelection = (productId: string) => {
+    setSelectedProducts(prev => 
+      prev.includes(productId) 
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
+  const toggleBookmark = (productId: string) => {
+    setBookmarkedProducts(prev => 
+      prev.includes(productId) 
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Highlight search terms in text
+  const highlightSearchTerms = (text: string) => {
+    const searchTerms = query.toLowerCase().split(' ').filter(term => term.length > 2);
+    let highlightedText = text;
+    
+    searchTerms.forEach(term => {
+      const regex = new RegExp(`(${term})`, 'gi');
+      highlightedText = highlightedText.replace(regex, '<strong>$1</strong>');
+    });
+    
+    return <span dangerouslySetInnerHTML={{ __html: highlightedText }} />;
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-muted/30">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-white">
       <SearchHeader />
       
       <main className="flex-1 container mx-auto py-8 px-4 md:px-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold">
-            Search results for "{query}"
-          </h1>
-          <p className="text-muted-foreground">
-            {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found
-          </p>
+        {/* Search Summary */}
+        <div className="mb-8">
+          <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+            <div className="flex items-center gap-3 mb-4">
+              <Search className="h-6 w-6 text-brand-purple" />
+              <h1 className="text-2xl md:text-3xl font-bold text-brand-black">
+                Search Results
+              </h1>
+            </div>
+            
+            <div className="text-lg text-brand-black/80 mb-4">
+              {isSamsungSearch ? (
+                <>
+                  <span className="font-semibold">{filteredProducts.length} Samsung phones</span> found for "
+                  <span className="font-semibold text-brand-purple">{highlightSearchTerms(query)}</span>"
+                </>
+              ) : (
+                <>
+                  <span className="font-semibold">{filteredProducts.length} products</span> found for "
+                  <span className="font-semibold text-brand-purple">{highlightSearchTerms(query)}</span>"
+                </>
+              )}
+            </div>
+
+            {!isSamsungSearch && query.toLowerCase().includes('samsung') && (
+              <div className="bg-brand-yellow/30 border border-brand-yellow/50 rounded-lg p-4 mb-4">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="h-5 w-5 text-brand-black/70 mt-0.5" />
+                  <div>
+                    <p className="font-medium text-brand-black mb-1">
+                      No matching Samsung phones found
+                    </p>
+                    <p className="text-sm text-brand-black/70">
+                      But here are other top phones under ₹30,000 with good battery life.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Related Searches */}
+            <div className="flex flex-wrap gap-2">
+              <span className="text-sm font-medium text-brand-black/60">Related searches:</span>
+              {["Samsung phones under ₹25,000", "Best battery phones", "5G phones under ₹30,000", "Samsung M series"].map((search, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  size="sm"
+                  className="text-xs border-brand-purple/30 text-brand-purple hover:bg-brand-purple/10"
+                >
+                  {search}
+                </Button>
+              ))}
+            </div>
+          </div>
         </div>
         
-        <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-6">
           {/* Filters Sidebar */}
-          <div className="md:w-64 flex-shrink-0">
-            <div className="sticky top-20">
-              <SearchFilters onFilterChange={handleFilterChange} />
+          <div className="lg:w-80 flex-shrink-0">
+            <div className="lg:sticky lg:top-20">
+              {/* Mobile Filter Toggle */}
+              <div className="lg:hidden mb-4">
+                <Button
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="w-full bg-white border-2 border-gray-200 hover:border-brand-purple text-brand-black"
+                >
+                  <Filter className="mr-2 h-4 w-4" />
+                  {showFilters ? "Hide Filters" : "Show Filters"}
+                </Button>
+              </div>
+              
+              {/* Filters */}
+              <div className={`lg:block ${showFilters ? 'block' : 'hidden'}`}>
+                <SearchFilters onFilterChange={handleFilterChange} />
+              </div>
             </div>
           </div>
           
           {/* Results */}
           <div className="flex-1">
+            {/* Sort and Actions Bar */}
             <div className="bg-white rounded-xl p-4 shadow-md mb-6">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <Tabs defaultValue="all" className="w-full sm:w-auto">
-                  <TabsList>
-                    <TabsTrigger value="all">All Results</TabsTrigger>
-                    <TabsTrigger value="products">Products</TabsTrigger>
-                    <TabsTrigger value="reviews">Reviews</TabsTrigger>
-                  </TabsList>
-                </Tabs>
-                
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm text-muted-foreground whitespace-nowrap">Sort by:</span>
-                  <Select 
-                    value={sortBy} 
-                    onValueChange={setSortBy}
-                  >
-                    <SelectTrigger className="w-36">
-                      <SelectValue placeholder="Relevance" />
+                <div className="flex items-center gap-4">
+                  <span className="text-sm font-medium text-brand-black/70">Sort by:</span>
+                  <Select value={sortBy} onValueChange={handleSortChange}>
+                    <SelectTrigger className="w-40">
+                      <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="relevance">Relevance</SelectItem>
-                      <SelectItem value="rating">Highest Rating</SelectItem>
-                      <SelectItem value="reviews">Most Reviews</SelectItem>
                       <SelectItem value="price-low">Price: Low to High</SelectItem>
                       <SelectItem value="price-high">Price: High to Low</SelectItem>
+                      <SelectItem value="rating">Highest Rating</SelectItem>
+                      <SelectItem value="battery">Battery Capacity</SelectItem>
+                      <SelectItem value="popularity">Most Popular</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  {selectedProducts.length > 0 && (
+                    <Badge variant="secondary" className="bg-brand-purple text-white">
+                      {selectedProducts.length} selected
+                    </Badge>
+                  )}
+                  {selectedProducts.length >= 2 && (
+                    <Button size="sm" className="bg-brand-purple hover:bg-brand-purple-dark">
+                      Compare ({selectedProducts.length})
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
             
+            {/* Loading State */}
             {isLoading ? (
               <div className="space-y-6">
                 {[1, 2, 3].map((i) => (
@@ -374,15 +435,54 @@ const SearchResults = () => {
                 ))}
               </div>
             ) : (
+              /* Results */
               <div className="space-y-6">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
+                {filteredProducts.length > 0 ? (
+                  filteredProducts.map((product) => (
+                    <div key={product.id} className="relative">
+                      <ProductCard 
+                        product={product}
+                        isSelected={selectedProducts.includes(product.id)}
+                        isBookmarked={bookmarkedProducts.includes(product.id)}
+                        onSelect={() => toggleProductSelection(product.id)}
+                        onBookmark={() => toggleBookmark(product.id)}
+                        highlightTerms={query}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  /* No Results State */
+                  <div className="bg-white rounded-xl p-8 text-center shadow-md">
+                    <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-brand-black mb-2">
+                      No products found
+                    </h3>
+                    <p className="text-brand-black/70 mb-6">
+                      We couldn't find exact matches. Try adjusting filters or searching for similar products.
+                    </p>
+                    <div className="flex flex-wrap justify-center gap-2">
+                      {["Samsung phones", "Phones under ₹30,000", "Good battery phones", "5G phones"].map((suggestion, index) => (
+                        <Button key={index} variant="outline" size="sm">
+                          {suggestion}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
         </div>
       </main>
+      
+      {/* Back to Top Button */}
+      <Button
+        onClick={scrollToTop}
+        className="fixed bottom-6 right-6 bg-brand-purple hover:bg-brand-purple-dark text-white rounded-full w-12 h-12 p-0 shadow-lg"
+        aria-label="Back to top"
+      >
+        <ArrowUp className="h-5 w-5" />
+      </Button>
       
       <Footer />
     </div>

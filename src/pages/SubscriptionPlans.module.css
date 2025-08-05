@@ -1,0 +1,930 @@
+/* Subscription Plans Page Custom Styles */
+
+.heroSection {
+  background: linear-gradient(135deg, #FEF7CD 0%, #FEF7CD 50%, #FFFFFF 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Skip link for accessibility */
+.skipLink {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #9b87f5;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+  transition: top 0.3s;
+}
+
+.skipLink:focus {
+  top: 6px;
+}
+
+/* Enhanced Pricing Cards */
+.pricingCard {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  padding: 2.5rem 2rem;
+  margin: 1rem;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.pricingCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+}
+
+.pricingCard.mostPopular {
+  border-color: #9b87f5;
+  transform: scale(1.05);
+  position: relative;
+}
+
+.popularRibbon {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #9b87f5, #7E69AB);
+  color: white;
+  padding: 12px 32px;
+  border-radius: 0 0 16px 16px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(155, 135, 245, 0.3);
+}
+
+.cardContent {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Enhanced Billing Toggle */
+.billingToggleContainer {
+  display: flex;
+  background: #F3F4F6;
+  border-radius: 12px;
+  padding: 6px;
+  margin: 2rem auto;
+  width: fit-content;
+}
+
+.billingOption {
+  padding: 12px 32px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  background: transparent;
+  color: #6B7280;
+}
+
+.billingOption.active {
+  background: white;
+  color: #9b87f5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.billingOption:hover:not(.active) {
+  background: rgba(155, 135, 245, 0.1);
+  color: #9b87f5;
+}
+
+.savingsPill {
+  background: #10B981;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  margin-left: 8px;
+  font-weight: 600;
+}
+
+.savingsHighlight {
+  background: #ECFDF5;
+  color: #047857;
+  padding: 12px 24px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 1rem;
+  font-weight: 600;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Enhanced CTA Buttons */
+.ctaBtn {
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ctaLarge {
+  padding: 18px 32px;
+  font-size: 1.1rem;
+  width: 100%;
+  min-height: 56px;
+}
+
+.ctaMedium {
+  padding: 14px 24px;
+  font-size: 1rem;
+  min-height: 48px;
+}
+
+.ctaPrimary {
+  background: linear-gradient(135deg, #9b87f5, #7E69AB);
+  color: white;
+}
+
+.ctaPrimary:hover {
+  background: linear-gradient(135deg, #7E69AB, #6B5B9A);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(155, 135, 245, 0.4);
+}
+
+.ctaSecondary {
+  background: transparent;
+  color: #9b87f5;
+  border: 2px solid #9b87f5;
+}
+
+.ctaSecondary:hover {
+  background: #9b87f5;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.ctaOutline {
+  background: white;
+  color: #374151;
+  border: 2px solid #D1D5DB;
+}
+
+.ctaOutline:hover {
+  background: #F9FAFB;
+  border-color: #9CA3AF;
+  transform: translateY(-2px);
+}
+
+.noCardRequired {
+  text-align: center;
+  color: #6B7280;
+  font-size: 0.875rem;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.cardActions {
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+/* Enhanced Feature Lists */
+.featuresContainer {
+  margin: 1.5rem 0;
+}
+
+.featuresTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 1rem;
+}
+
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.featureIconWrapper {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.featureIcon.included {
+  color: #10B981;
+}
+
+.featureIcon.excluded {
+  color: #EF4444;
+}
+
+.featureText.included {
+  color: #374151;
+}
+
+.featureText.excluded {
+  color: #9CA3AF;
+  text-decoration: line-through;
+}
+
+/* Enhanced Testimonials */
+.testimonialCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid #E5E7EB;
+}
+
+.testimonialCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.testimonialHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.reviewerAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.reviewerDetails {
+  flex: 1;
+}
+
+.reviewerName {
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 4px 0;
+}
+
+.reviewerLocation {
+  color: #6B7280;
+  font-size: 0.875rem;
+  margin: 0 0 8px 0;
+}
+
+.ratingStars {
+  display: flex;
+  gap: 2px;
+}
+
+.ratingStars .filled {
+  color: #F59E0B;
+  fill: currentColor;
+}
+
+.ratingStars .empty {
+  color: #D1D5DB;
+}
+
+.testimonialQuote {
+  color: #6B7280;
+  font-style: italic;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Trust Badges */
+.trustBadgesSection {
+  margin-top: 3rem;
+}
+
+.trustBadgesGrid {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.trustBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  color: #374151;
+  font-weight: 500;
+}
+
+.trustBadge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Enhanced FAQ Accordion */
+.faqAccordion {
+  space-y: 1rem;
+}
+
+.faqItem {
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.faqToggle {
+  width: 100%;
+  padding: 1.5rem;
+  background: white;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.faqToggle:hover {
+  background: #F9FAFB;
+}
+
+.faqQuestionContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+  color: #6B7280;
+}
+
+.chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.faqAnswer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: #F9FAFB;
+}
+
+.faqAnswer.expanded {
+  max-height: 200px;
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.faqAnswer p {
+  margin: 0;
+  color: #6B7280;
+  line-height: 1.6;
+}
+
+/* Sticky CTA */
+.stickyCtaBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 1px solid #E5E7EB;
+  padding: 1rem;
+  z-index: 1000;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stickyCtaBar.visible {
+  transform: translateY(0);
+}
+
+.stickyContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stickyContent span {
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Floating Help Button */
+.helpFloat {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: #9b87f5;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(155, 135, 245, 0.3);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.helpFloat:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(155, 135, 245, 0.4);
+}
+
+.helpTooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1F2937;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  margin-bottom: 8px;
+}
+
+.helpFloat:hover .helpTooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Legacy styles for backward compatibility */
+.planCard {
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  position: relative;
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.planCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.planCard.popular {
+  border: 2px solid #9b87f5;
+  box-shadow: 0 8px 16px rgba(155, 135, 245, 0.2);
+  transform: scale(1.05);
+}
+
+.planCard.popular:hover {
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 0 16px 32px rgba(155, 135, 245, 0.3);
+}
+
+.popularBadge {
+  background: linear-gradient(135deg, #9b87f5 0%, #7E69AB 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(155, 135, 245, 0.4);
+  animation: pulse-subtle 2s ease-in-out infinite;
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 24px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.billingToggle {
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  position: relative;
+  width: 60px;
+  height: 30px;
+  background: #E5E7EB;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.billingToggle button {
+  transition: all 0.2s ease;
+}
+
+.billingToggle button.active {
+  background: #9b87f5;
+  color: white;
+  box-shadow: 0 2px 8px rgba(155, 135, 245, 0.3);
+}
+
+.savingsBadge {
+  background: #10B981;
+  color: white;
+  animation: bounce 1s ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+}
+
+.socialProof {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.testimonialCard {
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.testimonialCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.faqItem {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.faqItem:hover {
+  border-color: #9b87f5;
+  box-shadow: 0 2px 8px rgba(155, 135, 245, 0.1);
+}
+
+.ctaSection {
+  background: linear-gradient(135deg, #9b87f5 0%, #7E69AB 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.3;
+}
+
+.comparisonTable {
+  border: 2px solid rgba(155, 135, 245, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.comparisonTable th {
+  background: linear-gradient(135deg, #9b87f5 0%, #7E69AB 100%);
+  color: white;
+  font-weight: 600;
+}
+
+.comparisonTable tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.comparisonTable tr:hover {
+  background-color: #f3f4f6;
+}
+
+.comparisonTable td.premium {
+  background-color: rgba(155, 135, 245, 0.05);
+  font-weight: 600;
+}
+
+.featureIcon {
+  transition: all 0.2s ease;
+}
+
+.featureIcon:hover {
+  transform: scale(1.1);
+  color: #9b87f5;
+}
+
+.ctaButton {
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.ctaButton:hover::before {
+  left: 100%;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.supportSection {
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+}
+
+.supportItem {
+  transition: all 0.2s ease;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.supportItem:hover {
+  background: rgba(155, 135, 245, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .planCard {
+    margin-bottom: 2rem;
+  }
+  
+  .planCard:hover {
+    transform: translateY(-4px);
+  }
+  
+  .planCard.popular:hover {
+    transform: translateY(-6px) scale(1.01);
+  }
+  
+  .billingToggle {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .socialProof {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .testimonialCard {
+    margin-bottom: 1rem;
+  }
+  
+  .comparisonTable {
+    font-size: 0.875rem;
+  }
+
+  .stickyCtaBar {
+    padding: 0.75rem;
+  }
+
+  .stickyContent {
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+  }
+
+  .helpFloat {
+    bottom: 10px;
+    left: 10px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .pricingCard {
+    padding: 1.5rem;
+    margin: 0.5rem;
+  }
+
+  .pricingCard.mostPopular {
+    transform: none;
+    margin-top: 2rem;
+  }
+
+  .popularRibbon {
+    font-size: 0.8rem;
+    padding: 8px 20px;
+  }
+
+  .billingToggleContainer {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .ctaBtn {
+    min-height: 48px;
+    font-size: 1rem;
+  }
+
+  .trustBadgesGrid {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+/* Animation for plan cards */
+.planCard {
+  animation: slideInUp 0.6s ease-out forwards;
+}
+
+.planCard:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.planCard:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.planCard:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading state for buttons */
+.buttonLoading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.buttonLoading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Focus styles for accessibility */
+.focusVisible {
+  outline: 2px solid #9b87f5;
+  outline-offset: 2px;
+}
+
+/* Success state for form submission */
+.formSuccess {
+  background-color: #10B981;
+  color: white;
+}
+
+/* Error state for form validation */
+.formError {
+  background-color: #EF4444;
+  color: white;
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltipText {
+  visibility: hidden;
+  width: 200px;
+  background-color: #1f2937;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 0.875rem;
+}
+
+.tooltip:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .stickyCtaBar {
+    padding: 0.5rem;
+  }
+  
+  .planCard {
+    margin: 0 0.5rem 2rem 0.5rem;
+  }
+  
+  .heroSection {
+    padding: 2rem 1rem;
+  }
+  
+  .ctaSection {
+    padding: 2rem 1rem;
+  }
+
+  .pricingCard {
+    padding: 1.25rem;
+  }
+
+  .popularRibbon {
+    font-size: 0.75rem;
+    padding: 6px 16px;
+  }
+}
+
+/* Pulse animation for popular badge */
+@keyframes pulse-subtle {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.05);
+  }
+} 

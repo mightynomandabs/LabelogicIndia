@@ -20,6 +20,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import LanguageSelector from "@/components/home/LanguageSelector";
+import { useLanguage } from "@/contexts/LanguageContext";
+import styles from "./Subscription.module.css";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -33,6 +35,7 @@ type FormValues = z.infer<typeof formSchema>;
 const Subscription = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useLanguage();
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -55,22 +58,22 @@ const Subscription = () => {
     setIsSubmitting(true);
     
     try {
-      // This would connect to your backend in a real implementation
+      // Form submission handling
       console.log("Form submitted:", data);
       
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       toast({
-        title: "Subscription successful!",
-        description: "Thank you for subscribing to our service.",
+        title: t("subscription_success"),
+        description: t("subscription_success_desc"),
       });
       
       form.reset();
     } catch (error) {
       toast({
-        title: "Subscription failed",
-        description: "There was a problem with your subscription. Please try again.",
+        title: t("subscription_failed"),
+        description: t("subscription_failed_desc"),
         variant: "destructive",
       });
     } finally {
@@ -86,36 +89,36 @@ const Subscription = () => {
       
       <Navbar />
       
-      <main className="flex-1 py-16 px-6 bg-white">
+      <main className={`flex-1 py-16 px-6 ${styles.heroSection}`}>
         <div className="container mx-auto max-w-3xl">
           <div className="flex justify-end mb-4">
             <LanguageSelector />
           </div>
           
           <h1 className="text-3xl md:text-4xl font-bold text-center text-brand-black mb-8">
-            Get Early Access & Smart Deal Alerts
+            {t("subscription_title")}
           </h1>
           
           <div className="bg-brand-yellow/20 rounded-lg p-6 mb-10">
-            <h2 className="text-xl font-semibold mb-4 text-brand-black">Benefits of Subscribing</h2>
+            <h2 className="text-xl font-semibold mb-4 text-brand-black">{t("subscription_benefits")}</h2>
             <ul className="space-y-3">
               <li className="flex items-start">
                 <span className="text-green-500 mr-2">✅</span>
-                <span className="text-brand-black">Get price drop alerts for products you're interested in</span>
+                <span className="text-brand-black">{t("price_drop_alerts")}</span>
               </li>
               <li className="flex items-start">
                 <span className="text-green-500 mr-2">✅</span>
-                <span className="text-brand-black">Get smart buying tips for top categories</span>
+                <span className="text-brand-black">{t("smart_buying_tips")}</span>
               </li>
               <li className="flex items-start">
                 <span className="text-green-500 mr-2">✅</span>
-                <span className="text-brand-black">Be part of our testing team and help shape the future of Labelogic</span>
+                <span className="text-brand-black">{t("testing_team")}</span>
               </li>
             </ul>
           </div>
           
           <div id="subscription-form" className="bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-xl font-semibold mb-6 text-brand-black">Subscribe Now</h2>
+            <h2 className="text-xl font-semibold mb-6 text-brand-black">{t("subscribe_now")}</h2>
             
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -124,7 +127,7 @@ const Subscription = () => {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="name">Name</FormLabel>
+                      <FormLabel htmlFor="name">{t("name")}</FormLabel>
                       <FormControl>
                         <Input id="name" placeholder="Your name" {...field} />
                       </FormControl>
@@ -138,7 +141,7 @@ const Subscription = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="email">Email</FormLabel>
+                      <FormLabel htmlFor="email">{t("email")}</FormLabel>
                       <FormControl>
                         <Input id="email" type="email" placeholder="Your email address" {...field} />
                       </FormControl>
@@ -152,12 +155,12 @@ const Subscription = () => {
                   name="mobileNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="mobileNumber">Mobile Number (Optional)</FormLabel>
+                      <FormLabel htmlFor="mobileNumber">{t("mobile_number")} ({t("optional")})</FormLabel>
                       <FormControl>
                         <Input id="mobileNumber" placeholder="Your mobile number" {...field} />
                       </FormControl>
                       <FormDescription>
-                        We'll send SMS alerts for price drops if provided
+                        {t("sms_alerts")}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -165,7 +168,7 @@ const Subscription = () => {
                 />
                 
                 <div>
-                  <h3 className="text-sm font-medium mb-3">Interests</h3>
+                  <h3 className="text-sm font-medium mb-3">{t("interests")}</h3>
                   <div className="grid grid-cols-2 gap-4">
                     {interestOptions.map((option) => (
                       <div key={option.id} className="flex items-center space-x-2">
@@ -184,7 +187,7 @@ const Subscription = () => {
                             }
                           }}
                         />
-                        <Label htmlFor={option.id}>{option.label}</Label>
+                        <Label htmlFor={option.id}>{t(option.id)}</Label>
                       </div>
                     ))}
                   </div>
@@ -196,7 +199,7 @@ const Subscription = () => {
                   disabled={isSubmitting}
                   aria-label="Submit subscription form"
                 >
-                  {isSubmitting ? "Subscribing..." : "Subscribe Now"}
+                  {isSubmitting ? t("subscribing") : t("subscribe_now")}
                 </Button>
               </form>
             </Form>

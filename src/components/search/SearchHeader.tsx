@@ -32,8 +32,8 @@ const SearchHeader = () => {
       <div className="container mx-auto">
         <div className="flex items-center">
           <a href="/" className="mr-8">
-            <img 
-              src="/lovable-uploads/daf0e64c-0daa-47c0-b0f5-c3ed2ef7fabb.png" 
+                    <img
+          src="/labelogic-logo.png" 
               alt="Labelogic Logo" 
               className="h-8"
             />

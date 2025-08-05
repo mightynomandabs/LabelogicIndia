@@ -9,12 +9,23 @@ import {
   Pause,
   Share2,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Bookmark,
+  BookmarkCheck,
+  CheckCircle,
+  Battery,
+  Smartphone,
+  Camera,
+  HardDrive,
+  RefreshCw,
+  Image as ImageIcon
 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Skeleton } from "@/components/ui/skeleton";
 import { 
   Accordion,
   AccordionContent,
@@ -25,6 +36,7 @@ import { SentimentPieChart } from "./SentimentPieChart";
 import { SocialShareButtons } from "./SocialShareButtons";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useToast } from "@/components/ui/use-toast";
+import { useProductImage } from "@/hooks/useProductImage";
 
 interface Price {
   store: string;
@@ -37,6 +49,14 @@ interface SentimentScore {
   neutral: number;
   negative: number;
   overall: number; // -1 to 1 range
+}
+
+interface Specs {
+  battery?: string;
+  display?: string;
+  camera?: string;
+  storage?: string;
+  ram?: string;
 }
 
 export interface Product {
@@ -52,6 +72,7 @@ export interface Product {
   sentiment: SentimentScore;
   keyPhrases: string[];
   lastUpdated: string;
+  specs?: Specs;
   insights?: {
     positive: string[];
     neutral: string[];
@@ -67,31 +88,61 @@ export interface Product {
 
 interface ProductCardProps {
   product: Product;
+  isSelected?: boolean;
+  isBookmarked?: boolean;
+  onSelect?: () => void;
+  onBookmark?: () => void;
+  highlightTerms?: string;
 }
 
 // Mock reviews data for text-to-speech
 const mockReviewSummary = {
-  "1": "boAt Airdopes 141 has received mostly positive reviews from Indian users. 74% of reviews are positive, with users praising the battery life and sound quality. However, some users reported issues with build quality. Overall, it offers good value for money at ₹1,299 on Flipkart.",
-  "2": "Noise ColorFit Pro 3 Smartwatch has been well-received by Indian customers with 71% positive reviews. Users appreciate the display quality and battery life. Some concerns were noted about the health tracking accuracy. Available at ₹2,999 on Amazon.",
-  "3": "Sony WH-1000XM4 headphones are highly rated by Indian users with 82% positive reviews. The noise cancellation feature and sound quality are exceptional according to most reviewers. The price point of ₹24,999 is considered high but justified for the premium features.",
-  "4": "Samsung Galaxy S22 Ultra has received 77% positive reviews from Indian customers. The camera quality and display are highlighted as outstanding features. Some users mentioned concerns about battery life. Currently available at ₹72,999 on the Samsung Shop."
+  "samsung-1": "Samsung Galaxy M34 5G has received excellent reviews from Indian users. 78% of reviews are positive, with users praising the 6000mAh battery life and 5G connectivity. The AMOLED display and camera performance are also highly rated. Available at ₹18,999 on Flipkart.",
+  "samsung-2": "Samsung Galaxy F14 5G has been well-received by Indian customers with 72% positive reviews. Users appreciate the 6000mAh battery and 5G connectivity. Some concerns were noted about charging speed. Available at ₹15,999 on Flipkart.",
+  "samsung-3": "Samsung Galaxy A14 5G has received 68% positive reviews from Indian users. The 5000mAh battery and 5G connectivity are highlighted as good features. Some users mentioned the battery could be larger. Available at ₹13,999 on Flipkart.",
+  "other-1": "Redmi Note 12 Pro 5G has received 75% positive reviews from Indian customers. The 5000mAh battery with 67W fast charging and AMOLED display are highly praised. Some users mentioned MIUI bloatware. Available at ₹19,999 on Flipkart."
 };
 
 // Mock feature categories
 const featureCategories = ["All", "Battery", "Sound", "Design", "Price", "Comfort"];
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ 
+  product, 
+  isSelected = false, 
+  isBookmarked = false, 
+  onSelect, 
+  onBookmark, 
+  highlightTerms = "" 
+}: ProductCardProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [showInsights, setShowInsights] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState("All");
   const { toast } = useToast();
 
+  // Use the new image service
+  const { imageUrl, isLoading, error, source, retry } = useProductImage(product.name);
+
   const bestPrice = product.prices.reduce((lowest, current) => 
     parseFloat(current.price.replace(/[^0-9.]/g, '')) < parseFloat(lowest.price.replace(/[^0-9.]/g, '')) 
       ? current 
       : lowest
   );
+
+  // Highlight search terms in text
+  const highlightSearchTerms = (text: string) => {
+    if (!highlightTerms) return text;
+    
+    const searchTerms = highlightTerms.toLowerCase().split(' ').filter(term => term.length > 2);
+    let highlightedText = text;
+    
+    searchTerms.forEach(term => {
+      const regex = new RegExp(`(${term})`, 'gi');
+      highlightedText = highlightedText.replace(regex, '<strong class="text-brand-purple">$1</strong>');
+    });
+    
+    return <span dangerouslySetInnerHTML={{ __html: highlightedText }} />;
+  };
 
   // Mock TTS functionality
   const handleTTS = () => {
@@ -163,54 +214,184 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const filteredInsights = getFilteredInsights();
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden animate-fade-in">
+    <div className={`bg-white rounded-2xl shadow-xl overflow-hidden border-2 transition-all duration-300 hover:shadow-2xl ${
+      isSelected ? 'border-brand-purple bg-brand-purple/5' : 'border-transparent hover:border-brand-purple/30'
+    }`}>
       <div className="md:flex">
-        <div className="md:flex-shrink-0 md:w-64 h-48 md:h-auto overflow-hidden">
-          <img 
-            src={product.image} 
-            alt={product.name} 
-            className="w-full h-full object-cover"
-          />
+        {/* Image Section */}
+        <div className="md:flex-shrink-0 md:w-72 h-56 md:h-auto overflow-hidden relative">
+          {/* Image Loading States */}
+          {isLoading ? (
+            <div className="w-full h-full flex items-center justify-center bg-gray-50">
+              <div className="flex flex-col items-center gap-3">
+                <RefreshCw className="h-8 w-8 animate-spin text-brand-purple" />
+                <span className="text-sm text-gray-500 font-medium">Loading image...</span>
+              </div>
+            </div>
+          ) : error ? (
+            <div className="w-full h-full flex items-center justify-center bg-gray-50">
+              <div className="flex flex-col items-center gap-3">
+                <ImageIcon className="h-10 w-10 text-gray-400" />
+                <span className="text-sm text-gray-500 font-medium">Image unavailable</span>
+                <Button size="sm" variant="outline" onClick={retry} className="mt-2">
+                  Retry
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <img 
+              src={imageUrl || product.image} 
+              alt={product.name} 
+              className="w-full h-full object-cover"
+              onError={() => {
+                console.warn('Image failed to load, using fallback');
+              }}
+            />
+          )}
+          
+          {/* Image Source Badge */}
+          {source && (
+            <div className="absolute top-4 left-4">
+              <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800 font-medium">
+                Mock Image
+              </Badge>
+            </div>
+          )}
+          
+          {/* Selection and Bookmark Overlay */}
+          <div className="absolute top-4 left-4 flex gap-3">
+            {onSelect && (
+              <div className="flex items-center justify-center w-10 h-10 bg-white/95 rounded-xl shadow-lg">
+                <Checkbox 
+                  checked={isSelected}
+                  onCheckedChange={onSelect}
+                  className="data-[state=checked]:bg-brand-purple data-[state=checked]:border-brand-purple"
+                />
+              </div>
+            )}
+            
+            {onBookmark && (
+              <Button
+                onClick={onBookmark}
+                size="sm"
+                variant="ghost"
+                className="w-10 h-10 bg-white/95 hover:bg-white rounded-xl shadow-lg p-0"
+              >
+                {isBookmarked ? (
+                  <BookmarkCheck className="h-5 w-5 text-brand-purple fill-brand-purple" />
+                ) : (
+                  <Bookmark className="h-5 w-5 text-gray-600" />
+                )}
+              </Button>
+            )}
+          </div>
+          
+          {/* Best Price Badge */}
+          <div className="absolute top-4 right-4">
+            <Badge className="bg-green-500 text-white font-bold text-sm px-3 py-1">
+              Best Price
+            </Badge>
+          </div>
         </div>
         
-        <div className="p-6 flex-1">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+        {/* Content Section */}
+        <div className="p-8 flex-1">
+          <div className="flex flex-col h-full">
+            {/* Header Section */}
             <div className="flex-1">
-              <div className="flex items-center text-sm">
-                <Badge variant="outline" className="mr-2">
+              <div className="flex items-center text-sm mb-4">
+                <Badge variant="outline" className="mr-3 font-medium">
                   {product.category}
                 </Badge>
-                <span className="text-muted-foreground">{product.brand}</span>
+                <span className="text-muted-foreground font-medium">{product.brand}</span>
               </div>
               
-              <Link to={`/product/${product.id}`} className="hover:text-brand-purple">
-                <h2 className="text-xl font-semibold mt-1 mb-2">{product.name}</h2>
+              <Link to={`/product/${product.id}`} className="hover:text-brand-purple transition-colors">
+                <h2 className="text-2xl font-bold mt-2 mb-4 leading-tight">
+                  {highlightSearchTerms(product.name)}
+                </h2>
               </Link>
               
-              <p className="text-muted-foreground line-clamp-2 mb-3">
-                {product.description}
+              <p className="text-muted-foreground line-clamp-2 mb-6 text-base leading-relaxed">
+                {highlightSearchTerms(product.description)}
               </p>
               
-              <div className="flex items-center text-sm mb-4">
-                <div className="flex items-center mr-4">
-                  <Star className="h-4 w-4 text-yellow-400 fill-yellow-400 mr-1" />
-                  <span className="font-medium">{product.rating.toFixed(1)}</span>
+              {/* Key Specs Highlight */}
+              {product.specs && (
+                <div className="flex flex-wrap gap-3 mb-6">
+                  {product.specs.battery && (
+                    <Badge variant="secondary" className="bg-green-100 text-green-800 border-green-200 font-medium">
+                      <Battery className="h-4 w-4 mr-2" />
+                      {product.specs.battery}
+                    </Badge>
+                  )}
+                  {product.specs.display && (
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800 border-blue-200 font-medium">
+                      <Smartphone className="h-4 w-4 mr-2" />
+                      {product.specs.display}
+                    </Badge>
+                  )}
+                  {product.specs.camera && (
+                    <Badge variant="secondary" className="bg-purple-100 text-purple-800 border-purple-200 font-medium">
+                      <Camera className="h-4 w-4 mr-2" />
+                      {product.specs.camera}
+                    </Badge>
+                  )}
+                  {product.specs.storage && (
+                    <Badge variant="secondary" className="bg-orange-100 text-orange-800 border-orange-200 font-medium">
+                      <HardDrive className="h-4 w-4 mr-2" />
+                      {product.specs.storage}
+                    </Badge>
+                  )}
                 </div>
-                <div className="flex items-center mr-4">
-                  <ThumbsUp className="h-4 w-4 text-muted-foreground mr-1" />
-                  <span>{product.reviewCount} reviews</span>
+              )}
+              
+              {/* Rating and Reviews */}
+              <div className="flex items-center text-sm mb-6">
+                <div className="flex items-center mr-6">
+                  <Star className="h-5 w-5 text-yellow-400 fill-yellow-400 mr-2" />
+                  <span className="font-bold text-lg">{product.rating.toFixed(1)}</span>
+                </div>
+                <div className="flex items-center mr-6">
+                  <ThumbsUp className="h-5 w-5 text-muted-foreground mr-2" />
+                  <span className="font-medium">{product.reviewCount.toLocaleString()} reviews</span>
                 </div>
                 <div className="flex items-center text-muted-foreground">
-                  <CalendarDays className="h-4 w-4 mr-1" />
-                  <span>Updated {product.lastUpdated}</span>
+                  <CalendarDays className="h-5 w-5 mr-2" />
+                  <span className="font-medium">Updated {product.lastUpdated}</span>
                 </div>
               </div>
-              
-              {/* Sentiment Visualization Section */}
-              <div className="flex flex-col md:flex-row gap-4 items-start mt-4">
-                <div className="w-full md:w-1/3">
-                  <h3 className="text-sm font-medium mb-2">Sentiment Analysis</h3>
-                  <div className="bg-brand-white p-3 rounded-lg border border-gray-200">
+            </div>
+            
+            {/* Sentiment Analysis Section */}
+            <div className="mt-8 space-y-6">
+              <div className="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200 rounded-xl p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold text-brand-black">Customer Sentiment</h3>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-green-500 rounded-full"></div>
+                      <span className="text-sm font-bold text-green-700">
+                        {Math.round(product.sentiment.positive * 100)}% Positive
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
+                      <span className="text-sm font-bold text-gray-600">
+                        {Math.round(product.sentiment.neutral * 100)}% Neutral
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+                      <span className="text-sm font-bold text-red-700">
+                        {Math.round(product.sentiment.negative * 100)}% Negative
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-6">
+                  <div className="w-20 h-20">
                     <SentimentPieChart 
                       positive={product.sentiment.positive}
                       neutral={product.sentiment.neutral}
@@ -218,130 +399,55 @@ const ProductCard = ({ product }: ProductCardProps) => {
                       keyPhrases={product.keyPhrases}
                     />
                   </div>
-                </div>
-                
-                <div className="w-full md:w-2/3">
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-sm font-medium">Key Highlights</h3>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      onClick={() => setShowInsights(!showInsights)}
-                      className="flex items-center text-xs text-brand-black"
-                    >
-                      {showInsights ? "Hide Details" : "Show Detailed Insights"}
-                      {showInsights ? <ChevronUp className="ml-1 h-3 w-3" /> : <ChevronDown className="ml-1 h-3 w-3" />}
-                    </Button>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {product.keyPhrases.map((phrase, index) => (
-                      <Badge key={index} variant="secondary">
-                        {phrase}
-                      </Badge>
-                    ))}
-                  </div>
-                  
-                  {/* Accessibility Features */}
-                  <div className="flex gap-2 mt-3">
-                    <Button
-                      onClick={handleTTS}
-                      className="text-xs flex items-center bg-brand-yellow hover:bg-brand-yellow-dark text-brand-black border-brand-white"
-                      size="sm"
-                    >
-                      {isPlaying ? <Pause className="h-3 w-3 mr-1" /> : <Headphones className="h-3 w-3 mr-1" />}
-                      {isPlaying ? "Stop" : "Listen to Reviews"}
-                    </Button>
-                    
-                    {isPlaying && (
-                      <ToggleGroup type="single" value={playbackRate.toString()} onValueChange={(value) => value && changePlaybackRate(parseFloat(value))}>
-                        <ToggleGroupItem value="0.5" size="sm" className="text-xs">0.5x</ToggleGroupItem>
-                        <ToggleGroupItem value="1" size="sm" className="text-xs">1x</ToggleGroupItem>
-                        <ToggleGroupItem value="1.5" size="sm" className="text-xs">1.5x</ToggleGroupItem>
-                      </ToggleGroup>
-                    )}
-                  </div>
-                  
-                  {/* Social Sharing Section */}
-                  <div className="mt-3">
-                    <SocialShareButtons product={product} />
-                  </div>
-                </div>
-              </div>
-              
-              {/* Collapsible Detailed Insights Section */}
-              {showInsights && (
-                <div className="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50 animate-fade-in">
-                  <div className="flex justify-between items-center mb-4">
-                    <h3 className="font-medium">Detailed Insights</h3>
-                    <ToggleGroup type="single" value={selectedFeature} onValueChange={(value) => value && setSelectedFeature(value)}>
-                      {featureCategories.map(feature => (
-                        <ToggleGroupItem key={feature} value={feature} size="sm" className="text-xs">
-                          {feature}
-                        </ToggleGroupItem>
+                  <div className="flex-1">
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {product.keyPhrases.map((phrase, index) => (
+                        <Badge key={index} variant="secondary" className="text-sm font-medium">
+                          {highlightSearchTerms(phrase)}
+                        </Badge>
                       ))}
-                    </ToggleGroup>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <h4 className="text-sm font-medium text-sentiment-positive mb-2">Pros:</h4>
-                      <ul className="list-disc pl-5 space-y-1 text-sm">
-                        {filteredInsights.positive.map((insight, idx) => (
-                          <li key={`pos-${idx}`}>{insight}</li>
-                        ))}
-                        {filteredInsights.positive.length === 0 && (
-                          <li className="text-muted-foreground">No positive insights for this feature</li>
-                        )}
-                      </ul>
                     </div>
-                    <div>
-                      <h4 className="text-sm font-medium text-sentiment-negative mb-2">Cons:</h4>
-                      <ul className="list-disc pl-5 space-y-1 text-sm">
-                        {filteredInsights.negative.map((insight, idx) => (
-                          <li key={`neg-${idx}`}>{insight}</li>
-                        ))}
-                        {filteredInsights.negative.length === 0 && (
-                          <li className="text-muted-foreground">No negative insights for this feature</li>
-                        )}
-                      </ul>
+                    
+                    {/* Action Buttons */}
+                    <div className="flex gap-3">
+                      <Button
+                        onClick={handleTTS}
+                        className="text-sm flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-medium px-4 py-2"
+                        size="sm"
+                      >
+                        {isPlaying ? <Pause className="h-4 w-4 mr-2" /> : <Headphones className="h-4 w-4 mr-2" />}
+                        {isPlaying ? "Stop" : "Listen to Reviews"}
+                      </Button>
+                      
+                      {isPlaying && (
+                        <ToggleGroup type="single" value={playbackRate.toString()} onValueChange={(value) => value && changePlaybackRate(parseFloat(value))}>
+                          <ToggleGroupItem value="0.5" size="sm" className="text-sm">0.5x</ToggleGroupItem>
+                          <ToggleGroupItem value="1" size="sm" className="text-sm">1x</ToggleGroupItem>
+                          <ToggleGroupItem value="1.5" size="sm" className="text-sm">1.5x</ToggleGroupItem>
+                        </ToggleGroup>
+                      )}
                     </div>
-                  </div>
-                </div>
-              )}
-            </div>
-            
-            <div className="md:w-52 flex flex-col items-start space-y-4">
-              <div className="w-full">
-                <div className="text-sm text-muted-foreground mb-1">Best Price</div>
-                <div className="flex items-center justify-between">
-                  <div className="text-2xl font-bold text-brand-purple-dark">
-                    ₹{bestPrice.price.replace(/[^0-9.]/g, '')}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    at {bestPrice.store}
                   </div>
                 </div>
               </div>
               
-              <div className="w-full space-y-2">
-                <Link to={`/product/${product.id}`}>
-                  <Button className="w-full bg-brand-purple hover:bg-brand-purple-dark">
-                    View All Reviews
-                  </Button>
-                </Link>
-                <Button variant="outline" className="w-full">
-                  Compare Prices
-                </Button>
-                <a 
-                  href={bestPrice.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex items-center justify-center text-sm text-brand-purple hover:text-brand-purple-dark mt-2"
+              {/* Detailed Insights Toggle */}
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-bold text-brand-black">Detailed Insights</h3>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setShowInsights(!showInsights)}
+                  className="flex items-center text-sm text-brand-purple hover:text-brand-purple-dark font-medium"
                 >
-                  View at {bestPrice.store}
-                  <ArrowUpRight className="ml-1 h-3 w-3" />
-                </a>
+                  {showInsights ? "Hide Details" : "Show Details"}
+                  {showInsights ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
+                </Button>
+              </div>
+              
+              {/* Social Sharing Section */}
+              <div className="flex justify-end">
+                <SocialShareButtons product={product} />
               </div>
             </div>
           </div>

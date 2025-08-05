@@ -7,7 +7,7 @@ const Testimonials: React.FC = () => {
   const testimonials = [
     {
       id: 1,
-      name: "Priya Sharma",
+      name: "Noman Mohammad Rafulla",
       role: "College Student",
       rating: 5,
       text: "Labelogic helped me find the perfect laptop for my studies. The price comparison saved me ₹8,000!",

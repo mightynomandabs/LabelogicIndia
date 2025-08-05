@@ -1,0 +1,14 @@
+/* NotFound Page Custom Styles */
+
+.heroSection {
+  background: linear-gradient(135deg, #FEF7CD 0%, #FEF7CD 50%, #FFFFFF 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .heroSection {
+    padding: 2rem 1rem;
+  }
+} 

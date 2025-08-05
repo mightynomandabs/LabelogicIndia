@@ -1,13 +1,14 @@
 
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import styles from "./PrivacyPolicy.module.css";
 
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 bg-white py-16 px-6">
+      <main className={`flex-1 py-16 px-6 ${styles.heroSection}`}>
         <div className="container mx-auto max-w-4xl">
           <h1 className="text-4xl font-bold text-brand-black mb-8 text-center">Privacy Policy</h1>
           

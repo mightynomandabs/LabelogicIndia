@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Home, Search } from "lucide-react";
+import styles from "./NotFound.module.css";
 
 const NotFound = () => {
   const location = useLocation();
@@ -20,7 +21,7 @@ const NotFound = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 flex items-center justify-center px-6 py-24">
+      <main className={`flex-1 flex items-center justify-center px-6 py-24 ${styles.heroSection}`}>
         <div className="text-center max-w-md">
           <h1 className="text-6xl font-bold text-brand-purple mb-4">404</h1>
           <p className="text-2xl font-medium mb-6">Oops! Page not found</p>

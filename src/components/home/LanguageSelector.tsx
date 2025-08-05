@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React from "react";
 import {
   Select,
   SelectContent,
@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Language {
   code: string;
@@ -18,23 +19,28 @@ interface Language {
 const languages: Language[] = [
   { code: "en", name: "English", nativeName: "English", flag: "🇺🇸" },
   { code: "hi", name: "Hindi", nativeName: "हिंदी", flag: "🇮🇳" },
+  { code: "ta", name: "Tamil", nativeName: "தமிழ்", flag: "🇮🇳" },
+  { code: "te", name: "Telugu", nativeName: "తెలుగు", flag: "🇮🇳" },
+  { code: "bn", name: "Bengali", nativeName: "বাংলা", flag: "🇮🇳" },
+  { code: "mr", name: "Marathi", nativeName: "मराठी", flag: "🇮🇳" },
 ];
 
 const LanguageSelector: React.FC = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState("en");
+  const { currentLanguage, setLanguage } = useLanguage();
 
   const handleLanguageChange = (value: string) => {
-    setSelectedLanguage(value);
-    // Here you would normally implement language change logic
-    console.log(`Language changed to: ${value}`);
+    setLanguage(value);
   };
 
-  const selectedLang = languages.find(lang => lang.code === selectedLanguage);
+  const selectedLang = languages.find(lang => lang.code === currentLanguage);
 
   return (
     <div className="flex items-center">
-      <Select value={selectedLanguage} onValueChange={handleLanguageChange}>
-        <SelectTrigger className="w-[140px] h-10 border-2 border-brand-black rounded-full bg-brand-white shadow-md hover:shadow-lg transition-all duration-200" aria-label="Select language">
+      <Select value={currentLanguage} onValueChange={handleLanguageChange}>
+        <SelectTrigger 
+          className="w-[140px] h-10 border-2 border-brand-black rounded-full bg-brand-white shadow-md hover:shadow-lg transition-all duration-200 focus:ring-2 focus:ring-brand-purple/20" 
+          aria-label="Select language"
+        >
           <SelectValue>
             <div className="flex items-center space-x-2">
               <span className="text-lg" aria-hidden="true">{selectedLang?.flag}</span>
@@ -42,7 +48,7 @@ const LanguageSelector: React.FC = () => {
             </div>
           </SelectValue>
         </SelectTrigger>
-        <SelectContent className="border-2 border-brand-black rounded-lg shadow-lg">
+        <SelectContent className="border-2 border-brand-black rounded-lg shadow-lg bg-white">
           {languages.map((language) => (
             <SelectItem 
               key={language.code} 

@@ -34,6 +34,12 @@
     --ring: 55 95% 70%;
 
     --radius: 0.5rem;
+
+    /* Brand Animation Colors */
+    --animate-brand-purple: #9b87f5;
+    --animate-brand-yellow: #FEF7CD;
+    --animate-positive: #34D399;
+    --animate-duration: 0.3s;
   }
 
   .dark {
@@ -124,6 +130,141 @@
   
   .pulse-animation {
     animation: pulse 1.5s infinite;
+  }
+
+  /* Enhanced Animation Classes */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    box-shadow: 0 0 20px rgba(155, 135, 245, 0.3);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .animate-glow:hover {
+    box-shadow: 0 0 30px rgba(155, 135, 245, 0.5);
+  }
+
+  .animate-ripple {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .animate-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(155, 135, 245, 0.6);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+  }
+
+  .animate-ripple:focus:not(:active)::after {
+    animation: ripple 0.6s ease-out;
+  }
+
+  /* Neural Network Animation */
+  .neural-dot {
+    width: 8px;
+    height: 8px;
+    background: #9b87f5;
+    border-radius: 50%;
+    position: absolute;
+    animation: neural-network 2s ease-in-out infinite;
+  }
+
+  .neural-line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, #9b87f5, #FEF7CD);
+    animation: pulse-brand 2s ease-in-out infinite;
+  }
+
+  /* Floating Background Elements */
+  .floating-element {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    animation: float 12s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-15px) rotate(2deg);
+    }
+    50% {
+      transform: translateY(-8px) rotate(-1deg);
+    }
+    75% {
+      transform: translateY(-20px) rotate(1deg);
+    }
+  }
+
+  .floating-element:nth-child(1) {
+    width: 100px;
+    height: 100px;
+    background: #9b87f5;
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+
+  .floating-element:nth-child(2) {
+    width: 60px;
+    height: 60px;
+    background: #FEF7CD;
+    top: 20%;
+    right: 15%;
+    animation-delay: 2s;
+  }
+
+  .floating-element:nth-child(3) {
+    width: 80px;
+    height: 80px;
+    background: #9b87f5;
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 4s;
+  }
+
+  /* Success Notification Animation */
+  .success-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #9b87f5;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    animation: slide-in 0.5s ease-out;
+  }
+
+  /* Live Activity Indicator */
+  .live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #9b87f5;
+    font-weight: 500;
+  }
+
+  .live-dot {
+    width: 8px;
+    height: 8px;
+    background: #34D399;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
   }
   
   /* Skip link styling */

@@ -50,7 +50,7 @@ const ProductDetail = () => {
   // Sample review data
   const reviews = [
     { author: "Amit S.", rating: 4.5, content: "Great battery life, decent camera, and smooth performance. Highly recommend for the price!" },
-    { author: "Priya M.", rating: 4, content: "I've been using it for a month now. The display is excellent and the battery lasts almost two days." },
+    { author: "Neha M.", rating: 4, content: "I've been using it for a month now. The display is excellent and the battery lasts almost two days." },
     { author: "Rajesh K.", rating: 3.5, content: "Good phone overall, but the camera could be better in low light." }
   ];
   
