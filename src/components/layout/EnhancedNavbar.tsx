@@ -148,12 +148,15 @@ const EnhancedNavbar = () => {
 
         {/* Mobile Navigation Toggle */}
         <button
-          className="lg:hidden text-brand-black p-2 rounded-lg hover:bg-brand-yellow-dark/50 transition-colors duration-200 touch-manipulation flex-shrink-0"
+          className="lg:hidden text-brand-black p-2 rounded-lg hover:bg-brand-yellow-dark/50 transition-colors duration-200 touch-manipulation flex-shrink-0 flex items-center space-x-2"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle navigation menu"
           aria-expanded={isOpen}
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
+          <span className="text-sm font-medium hidden sm:inline">
+            {isOpen ? "Close" : "Menu"}
+          </span>
         </button>
       </div>
 
