@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Filter, ChevronDown, ChevronUp, Check, Battery, Smartphone, DollarSign } from "lucide-react";
+import { Filter, ChevronDown, ChevronUp, Check, Battery, Smartphone, DollarSign, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -10,6 +10,8 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import React from "react";
 
 const FilterSection = ({ 
   title, 
@@ -25,7 +27,7 @@ const FilterSection = ({
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen} className="border-b border-gray-200 pb-4 mb-4">
       <CollapsibleTrigger asChild>
-        <Button variant="ghost" className="flex w-full justify-between p-2 hover:bg-transparent text-left">
+        <Button variant="ghost" className="flex w-full justify-between p-2 hover:bg-transparent text-left touch-manipulation min-h-[44px]">
           <span className="font-medium text-brand-black">{title}</span>
           {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
         </Button>
@@ -53,7 +55,7 @@ const CheckboxFilter = ({ options, onChange, selectedValues }: CheckboxFilterPro
   return (
     <div className="space-y-3">
       {options.map((option) => (
-        <div key={option.value} className="flex items-center space-x-3">
+        <div key={option.value} className="flex items-center space-x-3 min-h-[44px] touch-manipulation">
           <Checkbox 
             id={option.value} 
             checked={selectedValues.includes(option.value)} 
@@ -88,6 +90,7 @@ const SearchFilters = ({ onFilterChange }: SearchFiltersProps) => {
   const [selectedSentiment, setSelectedSentiment] = useState<string[]>([]);
   const [selectedBatteryCapacity, setSelectedBatteryCapacity] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 30000]);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   const updateFilters = () => {
     onFilterChange({
@@ -100,199 +103,317 @@ const SearchFilters = ({ onFilterChange }: SearchFiltersProps) => {
     });
   };
 
-  // Phone-specific filter options
-  const brands = [
-    { value: "samsung", label: "Samsung", count: 3 },
-    { value: "xiaomi", label: "Xiaomi", count: 2 },
-    { value: "oneplus", label: "OnePlus", count: 1 },
-    { value: "realme", label: "Realme", count: 2 },
-    { value: "oppo", label: "OPPO", count: 1 }
-  ];
+  // Update filters whenever any filter changes
+  React.useEffect(() => {
+    updateFilters();
+  }, [selectedBrands, selectedCategories, selectedRatings, selectedSentiment, selectedBatteryCapacity, priceRange]);
 
-  const categories = [
-    { value: "smartphones", label: "Smartphones", count: 8 },
-    { value: "tablets", label: "Tablets", count: 3 },
-    { value: "accessories", label: "Accessories", count: 12 }
-  ];
+  const clearAllFilters = () => {
+    setSelectedBrands([]);
+    setSelectedCategories([]);
+    setSelectedRatings([]);
+    setSelectedSentiment([]);
+    setSelectedBatteryCapacity([]);
+    setPriceRange([0, 30000]);
+  };
 
-  const ratings = [
-    { value: "4.5", label: "4.5★ & Above", count: 3 },
-    { value: "4", label: "4★ & Above", count: 5 },
-    { value: "3.5", label: "3.5★ & Above", count: 7 },
-    { value: "3", label: "3★ & Above", count: 8 }
-  ];
+  const getActiveFilterCount = () => {
+    return selectedBrands.length + selectedCategories.length + selectedRatings.length + 
+           selectedSentiment.length + selectedBatteryCapacity.length + 
+           (priceRange[0] > 0 || priceRange[1] < 30000 ? 1 : 0);
+  };
 
-  const sentiment = [
-    { value: "highly-positive", label: "Highly Positive (80%+)", count: 2 },
-    { value: "positive", label: "Positive (60-80%)", count: 4 },
-    { value: "moderate", label: "Moderate (40-60%)", count: 2 },
-    { value: "negative", label: "Negative (<40%)", count: 0 }
-  ];
+  const activeFilterCount = getActiveFilterCount();
 
-  const batteryCapacity = [
-    { value: "6000mah", label: "6000mAh & Above", count: 2 },
-    { value: "5000mah", label: "5000mAh & Above", count: 5 },
-    { value: "4500mah", label: "4500mAh & Above", count: 7 },
-    { value: "4000mah", label: "4000mAh & Above", count: 8 }
-  ];
-
-  return (
-    <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="font-semibold text-lg text-brand-black flex items-center">
-          <Filter size={18} className="mr-2 text-brand-purple" />
-          Filters
-        </h2>
-        <Button 
-          variant="ghost" 
-          className="text-sm h-8 hover:text-brand-purple hover:bg-transparent"
-          onClick={() => {
-            setSelectedBrands([]);
-            setSelectedCategories([]);
-            setSelectedRatings([]);
-            setSelectedSentiment([]);
-            setSelectedBatteryCapacity([]);
-            setPriceRange([0, 30000]);
-            updateFilters();
-          }}
-        >
-          Clear All
-        </Button>
+  // Desktop/Tablet Filters
+  const DesktopFilters = () => (
+    <div className="w-64 bg-white rounded-lg shadow-md p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold text-brand-black">Filters</h3>
+        {activeFilterCount > 0 && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={clearAllFilters}
+            className="text-xs text-brand-purple hover:text-brand-purple-dark"
+          >
+            Clear All
+          </Button>
+        )}
       </div>
 
-      <div className="space-y-2">
-        {/* Price Range Filter */}
-        <FilterSection title="Price Range" defaultOpen={true}>
-          <div className="space-y-4">
-            <div className="flex justify-between text-sm text-brand-black/70">
-              <span>₹{priceRange[0].toLocaleString()}</span>
-              <span>₹{priceRange[1].toLocaleString()}</span>
-            </div>
-            <Slider
-              value={priceRange}
-              onValueChange={(value) => {
-                setPriceRange(value as [number, number]);
-                updateFilters();
-              }}
-              max={30000}
-              min={0}
-              step={1000}
-              className="w-full"
-            />
-            <div className="flex gap-2">
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  setPriceRange([0, 15000]);
-                  updateFilters();
-                }}
-                className="text-xs"
-              >
-                Under ₹15K
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  setPriceRange([15000, 30000]);
-                  updateFilters();
-                }}
-                className="text-xs"
-              >
-                ₹15K-30K
-              </Button>
-            </div>
+      {/* Price Range */}
+      <FilterSection title="Price Range" defaultOpen={true}>
+        <div className="space-y-4">
+          <div className="flex justify-between text-sm text-gray-600">
+            <span>₹{priceRange[0].toLocaleString()}</span>
+            <span>₹{priceRange[1].toLocaleString()}</span>
           </div>
-        </FilterSection>
-
-        {/* Battery Capacity Filter */}
-        <FilterSection title="Battery Capacity" defaultOpen={true}>
-          <CheckboxFilter 
-            options={batteryCapacity} 
-            selectedValues={selectedBatteryCapacity} 
-            onChange={(values) => {
-              setSelectedBatteryCapacity(values);
-              updateFilters();
-            }}
+          <Slider
+            value={priceRange}
+            onValueChange={setPriceRange}
+            max={30000}
+            min={0}
+            step={1000}
+            className="w-full"
           />
-        </FilterSection>
-
-        {/* Brands Filter */}
-        <FilterSection title="Brands" defaultOpen={false}>
-          <CheckboxFilter 
-            options={brands} 
-            selectedValues={selectedBrands} 
-            onChange={(values) => {
-              setSelectedBrands(values);
-              updateFilters();
-            }}
-          />
-        </FilterSection>
-
-        {/* Categories Filter */}
-        <FilterSection title="Categories" defaultOpen={false}>
-          <CheckboxFilter 
-            options={categories} 
-            selectedValues={selectedCategories} 
-            onChange={(values) => {
-              setSelectedCategories(values);
-              updateFilters();
-            }}
-          />
-        </FilterSection>
-
-        {/* Rating Filter */}
-        <FilterSection title="Rating" defaultOpen={false}>
-          <CheckboxFilter 
-            options={ratings} 
-            selectedValues={selectedRatings} 
-            onChange={(values) => {
-              setSelectedRatings(values);
-              updateFilters();
-            }}
-          />
-        </FilterSection>
-
-        {/* Sentiment Filter */}
-        <FilterSection title="Sentiment" defaultOpen={false}>
-          <CheckboxFilter 
-            options={sentiment} 
-            selectedValues={selectedSentiment} 
-            onChange={(values) => {
-              setSelectedSentiment(values);
-              updateFilters();
-            }}
-          />
-        </FilterSection>
-      </div>
-
-      {/* Active Filters Summary */}
-      {(selectedBrands.length > 0 || selectedCategories.length > 0 || 
-        selectedRatings.length > 0 || selectedSentiment.length > 0 || 
-        selectedBatteryCapacity.length > 0 || 
-        (priceRange[0] > 0 || priceRange[1] < 30000)) && (
-        <div className="mt-6 pt-4 border-t border-gray-200">
-          <h3 className="text-sm font-medium text-brand-black mb-3">Active Filters:</h3>
-          <div className="flex flex-wrap gap-2">
-            {selectedBrands.map(brand => (
-              <Badge key={brand} variant="secondary" className="text-xs">
-                {brands.find(b => b.value === brand)?.label}
-              </Badge>
-            ))}
-            {selectedBatteryCapacity.map(battery => (
-              <Badge key={battery} variant="secondary" className="text-xs">
-                {batteryCapacity.find(b => b.value === battery)?.label}
-              </Badge>
-            ))}
-            {(priceRange[0] > 0 || priceRange[1] < 30000) && (
-              <Badge variant="secondary" className="text-xs">
-                ₹{priceRange[0].toLocaleString()} - ₹{priceRange[1].toLocaleString()}
-              </Badge>
-            )}
+          <div className="flex space-x-2">
+            <input
+              type="number"
+              value={priceRange[0]}
+              onChange={(e) => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
+              className="w-20 px-2 py-1 text-sm border rounded"
+              placeholder="Min"
+            />
+            <span className="text-gray-400">-</span>
+            <input
+              type="number"
+              value={priceRange[1]}
+              onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 30000])}
+              className="w-20 px-2 py-1 text-sm border rounded"
+              placeholder="Max"
+            />
           </div>
         </div>
-      )}
+      </FilterSection>
+
+      {/* Brands */}
+      <FilterSection title="Brands" defaultOpen={true}>
+        <CheckboxFilter
+          options={[
+            { value: "samsung", label: "Samsung", count: 45 },
+            { value: "apple", label: "Apple", count: 32 },
+            { value: "xiaomi", label: "Xiaomi", count: 28 },
+            { value: "oneplus", label: "OnePlus", count: 15 },
+            { value: "realme", label: "Realme", count: 22 }
+          ]}
+          selectedValues={selectedBrands}
+          onChange={setSelectedBrands}
+        />
+      </FilterSection>
+
+      {/* Categories */}
+      <FilterSection title="Categories" defaultOpen={true}>
+        <CheckboxFilter
+          options={[
+            { value: "smartphones", label: "Smartphones", count: 156 },
+            { value: "laptops", label: "Laptops", count: 89 },
+            { value: "headphones", label: "Headphones", count: 67 },
+            { value: "smartwatches", label: "Smartwatches", count: 34 }
+          ]}
+          selectedValues={selectedCategories}
+          onChange={setSelectedCategories}
+        />
+      </FilterSection>
+
+      {/* Ratings */}
+      <FilterSection title="Rating" defaultOpen={false}>
+        <CheckboxFilter
+          options={[
+            { value: "4.5+", label: "4.5+ Stars", count: 89 },
+            { value: "4.0+", label: "4.0+ Stars", count: 156 },
+            { value: "3.5+", label: "3.5+ Stars", count: 234 }
+          ]}
+          selectedValues={selectedRatings}
+          onChange={setSelectedRatings}
+        />
+      </FilterSection>
+
+      {/* Sentiment */}
+      <FilterSection title="Sentiment" defaultOpen={false}>
+        <CheckboxFilter
+          options={[
+            { value: "positive", label: "Positive Reviews", count: 123 },
+            { value: "neutral", label: "Neutral Reviews", count: 67 },
+            { value: "negative", label: "Negative Reviews", count: 12 }
+          ]}
+          selectedValues={selectedSentiment}
+          onChange={setSelectedSentiment}
+        />
+      </FilterSection>
+
+      {/* Battery Capacity */}
+      <FilterSection title="Battery Capacity" defaultOpen={false}>
+        <CheckboxFilter
+          options={[
+            { value: "5000mah+", label: "5000mAh+", count: 45 },
+            { value: "4000mah+", label: "4000mAh+", count: 78 },
+            { value: "3000mah+", label: "3000mAh+", count: 123 }
+          ]}
+          selectedValues={selectedBatteryCapacity}
+          onChange={setSelectedBatteryCapacity}
+        />
+      </FilterSection>
+    </div>
+  );
+
+  // Mobile Filters
+  const MobileFilters = () => (
+    <>
+      {/* Mobile Filter Button */}
+      <Button
+        variant="outline"
+        onClick={() => setIsMobileFilterOpen(true)}
+        className="md:hidden flex items-center space-x-2 w-full justify-center py-3"
+      >
+        <Filter className="h-4 w-4" />
+        <span>Filters</span>
+        {activeFilterCount > 0 && (
+          <Badge variant="secondary" className="ml-2">
+            {activeFilterCount}
+          </Badge>
+        )}
+      </Button>
+
+      {/* Mobile Filter Sheet */}
+      <Sheet open={isMobileFilterOpen} onOpenChange={setIsMobileFilterOpen}>
+        <SheetContent side="left" className="w-[85vw] max-w-sm overflow-y-auto">
+          <SheetHeader className="pb-4 border-b">
+            <SheetTitle className="flex items-center justify-between">
+              <span>Filters</span>
+              {activeFilterCount > 0 && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearAllFilters}
+                  className="text-xs text-brand-purple hover:text-brand-purple-dark"
+                >
+                  Clear All
+                </Button>
+              )}
+            </SheetTitle>
+          </SheetHeader>
+
+          <div className="py-4 space-y-6">
+            {/* Price Range */}
+            <FilterSection title="Price Range" defaultOpen={true}>
+              <div className="space-y-4">
+                <div className="flex justify-between text-sm text-gray-600">
+                  <span>₹{priceRange[0].toLocaleString()}</span>
+                  <span>₹{priceRange[1].toLocaleString()}</span>
+                </div>
+                <Slider
+                  value={priceRange}
+                  onValueChange={setPriceRange}
+                  max={30000}
+                  min={0}
+                  step={1000}
+                  className="w-full"
+                />
+                <div className="flex space-x-2">
+                  <input
+                    type="number"
+                    value={priceRange[0]}
+                    onChange={(e) => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
+                    className="w-20 px-2 py-1 text-sm border rounded"
+                    placeholder="Min"
+                  />
+                  <span className="text-gray-400">-</span>
+                  <input
+                    type="number"
+                    value={priceRange[1]}
+                    onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 30000])}
+                    className="w-20 px-2 py-1 text-sm border rounded"
+                    placeholder="Max"
+                  />
+                </div>
+              </div>
+            </FilterSection>
+
+            {/* Brands */}
+            <FilterSection title="Brands" defaultOpen={true}>
+              <CheckboxFilter
+                options={[
+                  { value: "samsung", label: "Samsung", count: 45 },
+                  { value: "apple", label: "Apple", count: 32 },
+                  { value: "xiaomi", label: "Xiaomi", count: 28 },
+                  { value: "oneplus", label: "OnePlus", count: 15 },
+                  { value: "realme", label: "Realme", count: 22 }
+                ]}
+                selectedValues={selectedBrands}
+                onChange={setSelectedBrands}
+              />
+            </FilterSection>
+
+            {/* Categories */}
+            <FilterSection title="Categories" defaultOpen={true}>
+              <CheckboxFilter
+                options={[
+                  { value: "smartphones", label: "Smartphones", count: 156 },
+                  { value: "laptops", label: "Laptops", count: 89 },
+                  { value: "headphones", label: "Headphones", count: 67 },
+                  { value: "smartwatches", label: "Smartwatches", count: 34 }
+                ]}
+                selectedValues={selectedCategories}
+                onChange={setSelectedCategories}
+              />
+            </FilterSection>
+
+            {/* Ratings */}
+            <FilterSection title="Rating" defaultOpen={false}>
+              <CheckboxFilter
+                options={[
+                  { value: "4.5+", label: "4.5+ Stars", count: 89 },
+                  { value: "4.0+", label: "4.0+ Stars", count: 156 },
+                  { value: "3.5+", label: "3.5+ Stars", count: 234 }
+                ]}
+                selectedValues={selectedRatings}
+                onChange={setSelectedRatings}
+              />
+            </FilterSection>
+
+            {/* Sentiment */}
+            <FilterSection title="Sentiment" defaultOpen={false}>
+              <CheckboxFilter
+                options={[
+                  { value: "positive", label: "Positive Reviews", count: 123 },
+                  { value: "neutral", label: "Neutral Reviews", count: 67 },
+                  { value: "negative", label: "Negative Reviews", count: 12 }
+                ]}
+                selectedValues={selectedSentiment}
+                onChange={setSelectedSentiment}
+              />
+            </FilterSection>
+
+            {/* Battery Capacity */}
+            <FilterSection title="Battery Capacity" defaultOpen={false}>
+              <CheckboxFilter
+                options={[
+                  { value: "5000mah+", label: "5000mAh+", count: 45 },
+                  { value: "4000mah+", label: "4000mAh+", count: 78 },
+                  { value: "3000mah+", label: "3000mAh+", count: 123 }
+                ]}
+                selectedValues={selectedBatteryCapacity}
+                onChange={setSelectedBatteryCapacity}
+              />
+            </FilterSection>
+          </div>
+
+          {/* Apply Filters Button */}
+          <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-white">
+            <Button
+              onClick={() => setIsMobileFilterOpen(false)}
+              className="w-full"
+            >
+              Apply Filters ({activeFilterCount})
+            </Button>
+          </div>
+        </SheetContent>
+      </Sheet>
+    </>
+  );
+
+  return (
+    <div className="space-y-4">
+      {/* Desktop/Tablet Filters */}
+      <div className="hidden md:block">
+        <DesktopFilters />
+      </div>
+      
+      {/* Mobile Filters */}
+      <div className="md:hidden">
+        <MobileFilters />
+      </div>
     </div>
   );
 };

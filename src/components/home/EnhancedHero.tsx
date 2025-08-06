@@ -106,80 +106,80 @@ const EnhancedHero = ({ onSearch, searchQuery, setSearchQuery }: EnhancedHeroPro
 
       <div className="container mx-auto relative z-10">
         {/* Live Activity Counter with Language Selector */}
-        <div className="flex justify-center items-center mb-12">
-          <div className="live-indicator inline-flex items-center gap-3 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg border border-brand-black/10">
+        <div className="flex flex-col sm:flex-row justify-center items-center mb-8 md:mb-12 gap-4">
+          <div className="live-indicator inline-flex items-center gap-2 md:gap-3 bg-white/90 backdrop-blur-sm px-4 md:px-6 py-2 md:py-3 rounded-full shadow-lg border border-brand-black/10">
             <div className="live-dot" />
-            <span className="text-sm font-semibold text-brand-black/90">{liveUserCount} users finding deals right now</span>
+            <span className="text-xs md:text-sm font-semibold text-brand-black/90">{liveUserCount} users finding deals right now</span>
           </div>
-          <div className="ml-6">
+          <div className="sm:ml-6">
             <LanguageSelector />
           </div>
         </div>
 
         {/* Main Hero Content */}
-        <div className="max-w-6xl mx-auto text-center mb-20">
+        <div className="max-w-6xl mx-auto text-center mb-12 md:mb-20">
           <TypewriterAnimation />
         </div>
 
         {/* Enhanced Search Form */}
-        <div className="max-w-5xl mx-auto mb-24 relative z-20" id="main-search">
+        <div className="max-w-5xl mx-auto mb-16 md:mb-24 relative z-20" id="main-search">
           <form onSubmit={handleSearch} className="relative group">
             <div className="relative">
-              <Search className="absolute left-8 top-1/2 transform -translate-y-1/2 text-brand-black/60 h-6 w-6 z-10" />
+              <Search className="absolute left-4 md:left-8 top-1/2 transform -translate-y-1/2 text-brand-black/60 h-5 w-5 md:h-6 md:w-6 z-10" />
               <Input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Describe what you're looking for: e.g., 'Samsung phone under ₹30,000 with good battery'"
-                className="pl-20 pr-32 py-10 text-xl rounded-2xl border-2 border-brand-black/20 shadow-2xl 
+                className="pl-12 md:pl-20 pr-24 md:pr-32 py-6 md:py-10 text-base md:text-xl rounded-xl md:rounded-2xl border-2 border-brand-black/20 shadow-xl md:shadow-2xl 
                          focus:ring-4 focus:ring-brand-purple/20 focus:border-brand-purple 
-                         transition-all duration-300 hover:shadow-3xl hover:shadow-brand-purple/10
+                         transition-all duration-300 hover:shadow-2xl md:hover:shadow-3xl hover:shadow-brand-purple/10
                          group-hover:border-brand-purple/50 bg-white/95 backdrop-blur-sm relative z-10
-                         min-h-[88px] w-full"
+                         min-h-[64px] md:min-h-[88px] w-full"
                 aria-label="Search products"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-brand-purple/5 to-brand-yellow/5 
-                            rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
+                            rounded-xl md:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
               
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 flex space-x-4 z-20">
+              <div className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 flex space-x-2 md:space-x-4 z-20">
                 <Button
                   type="button"
                   onClick={handleVoiceSearch}
-                  className="bg-brand-purple hover:bg-brand-purple-dark rounded-xl w-16 h-16 
+                  className="bg-brand-purple hover:bg-brand-purple-dark rounded-lg md:rounded-xl w-12 h-12 md:w-16 md:h-16 
                            flex items-center justify-center shadow-lg transition-all duration-200 
-                           hover:shadow-xl hover:scale-105"
+                           hover:shadow-xl hover:scale-105 touch-manipulation"
                   aria-label="Activate voice search"
                 >
-                  <Mic className="h-7 w-7" />
+                  <Mic className="h-5 w-5 md:h-7 md:w-7" />
                 </Button>
                 <Button 
                   type="submit" 
                   className="bg-brand-purple text-white hover:bg-brand-purple-dark 
-                           rounded-xl w-16 h-16 flex items-center justify-center shadow-lg 
-                           transition-all duration-200 hover:shadow-xl hover:scale-105"
+                           rounded-lg md:rounded-xl w-12 h-12 md:w-16 md:h-16 flex items-center justify-center shadow-lg 
+                           transition-all duration-200 hover:shadow-xl hover:scale-105 touch-manipulation"
                   aria-label="Search products"
                 >
-                  <Search className="h-7 w-7" />
+                  <Search className="h-5 w-5 md:h-7 md:w-7" />
                 </Button>
               </div>
             </div>
 
             {/* Search suggestions with enhanced styling */}
-            <div className="mt-8 relative z-10">
-              <div className="flex items-center justify-center mb-4">
-                <TrendingUp className="h-6 w-6 text-brand-purple mr-3" />
-                <span className="text-lg text-brand-black/80 font-semibold">Popular searches:</span>
+            <div className="mt-6 md:mt-8 relative z-10">
+              <div className="flex items-center justify-center mb-3 md:mb-4">
+                <TrendingUp className="h-4 w-4 md:h-6 md:w-6 text-brand-purple mr-2 md:mr-3" />
+                <span className="text-sm md:text-lg text-brand-black/80 font-semibold">Popular searches:</span>
               </div>
-              <div className="flex flex-wrap justify-center gap-4">
+              <div className="flex flex-wrap justify-center gap-2 md:gap-4">
                 {searchSuggestions.map((suggestion, index) => (
                   <Button
                     key={index}
                     type="button"
                     variant="outline"
                     onClick={() => handleSuggestionClick(suggestion)}
-                    className="text-base border-brand-purple/30 text-brand-purple hover:bg-brand-purple 
-                             hover:text-white rounded-xl px-8 py-4 transition-all duration-200
-                             hover:scale-105 hover:shadow-lg bg-white/90 backdrop-blur-sm font-medium"
+                    className="text-xs md:text-base border-brand-purple/30 text-brand-purple hover:bg-brand-purple 
+                             hover:text-white rounded-lg md:rounded-xl px-4 md:px-8 py-2 md:py-4 transition-all duration-200
+                             hover:scale-105 hover:shadow-lg bg-white/90 backdrop-blur-sm font-medium touch-manipulation"
                   >
                     {suggestion}
                   </Button>
@@ -189,14 +189,14 @@ const EnhancedHero = ({ onSearch, searchQuery, setSearchQuery }: EnhancedHeroPro
           </form>
 
           {/* Surprise Me Button */}
-          <div className="text-center mt-6 relative z-10">
+          <div className="text-center mt-4 md:mt-6 relative z-10">
             <Button
               onClick={handleSurpriseMe}
               className="bg-gradient-to-r from-brand-yellow to-brand-yellow-dark hover:from-brand-yellow-dark hover:to-brand-yellow 
-                       text-brand-black font-bold px-10 py-5 text-xl rounded-2xl transform hover:scale-105 
-                       transition-all duration-300 hover:shadow-2xl shadow-xl"
+                       text-brand-black font-bold px-6 md:px-10 py-3 md:py-5 text-base md:text-xl rounded-xl md:rounded-2xl transform hover:scale-105 
+                       transition-all duration-300 hover:shadow-2xl shadow-xl touch-manipulation"
             >
-              <Sparkles className="w-6 h-6 mr-4" />
+              <Sparkles className="w-4 h-4 md:w-6 md:h-6 mr-2 md:mr-4" />
               🎲 Surprise Me!
             </Button>
           </div>

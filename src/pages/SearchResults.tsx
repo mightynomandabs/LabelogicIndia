@@ -296,18 +296,18 @@ const SearchResults = () => {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-white">
       <SearchHeader />
       
-      <main className="flex-1 container mx-auto py-8 px-4 md:px-6">
+      <main className="flex-1 container mx-auto py-4 md:py-8 px-4 md:px-6">
         {/* Search Summary */}
-        <div className="mb-8">
-          <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-            <div className="flex items-center gap-3 mb-4">
-              <Search className="h-6 w-6 text-brand-purple" />
-              <h1 className="text-2xl md:text-3xl font-bold text-brand-black">
+        <div className="mb-6 md:mb-8">
+          <div className="bg-white rounded-xl p-4 md:p-6 shadow-lg border border-gray-100">
+            <div className="flex items-center gap-3 mb-3 md:mb-4">
+              <Search className="h-5 w-5 md:h-6 md:w-6 text-brand-purple" />
+              <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-brand-black">
                 Search Results
               </h1>
             </div>
             
-            <div className="text-lg text-brand-black/80 mb-4">
+            <div className="text-base md:text-lg text-brand-black/80 mb-3 md:mb-4">
               {isSamsungSearch ? (
                 <>
                   <span className="font-semibold">{filteredProducts.length} Samsung phones</span> found for "
@@ -322,14 +322,14 @@ const SearchResults = () => {
             </div>
 
             {!isSamsungSearch && query.toLowerCase().includes('samsung') && (
-              <div className="bg-brand-yellow/30 border border-brand-yellow/50 rounded-lg p-4 mb-4">
+              <div className="bg-brand-yellow/30 border border-brand-yellow/50 rounded-lg p-3 md:p-4 mb-3 md:mb-4">
                 <div className="flex items-start gap-3">
-                  <AlertCircle className="h-5 w-5 text-brand-black/70 mt-0.5" />
+                  <AlertCircle className="h-4 w-4 md:h-5 md:w-5 text-brand-black/70 mt-0.5" />
                   <div>
-                    <p className="font-medium text-brand-black mb-1">
+                    <p className="font-medium text-brand-black mb-1 text-sm md:text-base">
                       No matching Samsung phones found
                     </p>
-                    <p className="text-sm text-brand-black/70">
+                    <p className="text-xs md:text-sm text-brand-black/70">
                       But here are other top phones under ₹30,000 with good battery life.
                     </p>
                   </div>
@@ -339,13 +339,13 @@ const SearchResults = () => {
 
             {/* Related Searches */}
             <div className="flex flex-wrap gap-2">
-              <span className="text-sm font-medium text-brand-black/60">Related searches:</span>
+              <span className="text-xs md:text-sm font-medium text-brand-black/60">Related searches:</span>
               {["Samsung phones under ₹25,000", "Best battery phones", "5G phones under ₹30,000", "Samsung M series"].map((search, index) => (
                 <Button
                   key={index}
                   variant="outline"
                   size="sm"
-                  className="text-xs border-brand-purple/30 text-brand-purple hover:bg-brand-purple/10"
+                  className="text-xs border-brand-purple/30 text-brand-purple hover:bg-brand-purple/10 touch-manipulation"
                 >
                   {search}
                 </Button>
@@ -354,7 +354,7 @@ const SearchResults = () => {
           </div>
         </div>
         
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
           {/* Filters Sidebar */}
           <div className="lg:w-80 flex-shrink-0">
             <div className="lg:sticky lg:top-20">
@@ -362,7 +362,7 @@ const SearchResults = () => {
               <div className="lg:hidden mb-4">
                 <Button
                   onClick={() => setShowFilters(!showFilters)}
-                  className="w-full bg-white border-2 border-gray-200 hover:border-brand-purple text-brand-black"
+                  className="w-full bg-white border-2 border-gray-200 hover:border-brand-purple text-brand-black touch-manipulation py-3"
                 >
                   <Filter className="mr-2 h-4 w-4" />
                   {showFilters ? "Hide Filters" : "Show Filters"}
@@ -379,12 +379,12 @@ const SearchResults = () => {
           {/* Results */}
           <div className="flex-1">
             {/* Sort and Actions Bar */}
-            <div className="bg-white rounded-xl p-4 shadow-md mb-6">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div className="flex items-center gap-4">
-                  <span className="text-sm font-medium text-brand-black/70">Sort by:</span>
+            <div className="bg-white rounded-xl p-3 md:p-4 shadow-md mb-4 md:mb-6">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 md:gap-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 md:gap-4 w-full sm:w-auto">
+                  <span className="text-xs md:text-sm font-medium text-brand-black/70">Sort by:</span>
                   <Select value={sortBy} onValueChange={handleSortChange}>
-                    <SelectTrigger className="w-40">
+                    <SelectTrigger className="w-full sm:w-40">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -398,14 +398,14 @@ const SearchResults = () => {
                   </Select>
                 </div>
                 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full sm:w-auto">
                   {selectedProducts.length > 0 && (
-                    <Badge variant="secondary" className="bg-brand-purple text-white">
+                    <Badge variant="secondary" className="bg-brand-purple text-white text-xs md:text-sm">
                       {selectedProducts.length} selected
                     </Badge>
                   )}
                   {selectedProducts.length >= 2 && (
-                    <Button size="sm" className="bg-brand-purple hover:bg-brand-purple-dark">
+                    <Button size="sm" className="bg-brand-purple hover:bg-brand-purple-dark text-xs md:text-sm touch-manipulation">
                       Compare ({selectedProducts.length})
                     </Button>
                   )}
@@ -415,20 +415,20 @@ const SearchResults = () => {
             
             {/* Loading State */}
             {isLoading ? (
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="bg-white rounded-xl shadow-md p-6">
-                    <div className="flex gap-6">
-                      <Skeleton className="h-48 w-64 rounded-md" />
-                      <div className="flex-1 space-y-4">
-                        <Skeleton className="h-6 w-1/2" />
+                  <div key={i} className="bg-white rounded-xl shadow-md p-4 md:p-6">
+                    <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+                      <Skeleton className="h-32 md:h-48 w-full md:w-64 rounded-md" />
+                      <div className="flex-1 space-y-3 md:space-y-4">
+                        <Skeleton className="h-5 md:h-6 w-1/2" />
                         <Skeleton className="h-4 w-3/4" />
                         <Skeleton className="h-4 w-2/3" />
                         <div className="flex gap-2">
-                          <Skeleton className="h-8 w-20 rounded-full" />
-                          <Skeleton className="h-8 w-20 rounded-full" />
+                          <Skeleton className="h-6 md:h-8 w-16 md:w-20 rounded-full" />
+                          <Skeleton className="h-6 md:h-8 w-16 md:w-20 rounded-full" />
                         </div>
-                        <Skeleton className="h-32 w-full rounded-md" />
+                        <Skeleton className="h-24 md:h-32 w-full rounded-md" />
                       </div>
                     </div>
                   </div>
@@ -436,7 +436,7 @@ const SearchResults = () => {
               </div>
             ) : (
               /* Results */
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 {filteredProducts.length > 0 ? (
                   filteredProducts.map((product) => (
                     <div key={product.id} className="relative">
@@ -452,17 +452,17 @@ const SearchResults = () => {
                   ))
                 ) : (
                   /* No Results State */
-                  <div className="bg-white rounded-xl p-8 text-center shadow-md">
-                    <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-brand-black mb-2">
+                  <div className="bg-white rounded-xl p-6 md:p-8 text-center shadow-md">
+                    <Search className="h-8 w-8 md:h-12 md:w-12 text-gray-400 mx-auto mb-3 md:mb-4" />
+                    <h3 className="text-lg md:text-xl font-semibold text-brand-black mb-2">
                       No products found
                     </h3>
-                    <p className="text-brand-black/70 mb-6">
+                    <p className="text-brand-black/70 mb-4 md:mb-6 text-sm md:text-base">
                       We couldn't find exact matches. Try adjusting filters or searching for similar products.
                     </p>
                     <div className="flex flex-wrap justify-center gap-2">
                       {["Samsung phones", "Phones under ₹30,000", "Good battery phones", "5G phones"].map((suggestion, index) => (
-                        <Button key={index} variant="outline" size="sm">
+                        <Button key={index} variant="outline" size="sm" className="text-xs touch-manipulation">
                           {suggestion}
                         </Button>
                       ))}
@@ -478,10 +478,10 @@ const SearchResults = () => {
       {/* Back to Top Button */}
       <Button
         onClick={scrollToTop}
-        className="fixed bottom-6 right-6 bg-brand-purple hover:bg-brand-purple-dark text-white rounded-full w-12 h-12 p-0 shadow-lg"
+        className="fixed bottom-4 md:bottom-6 right-4 md:right-6 bg-brand-purple hover:bg-brand-purple-dark text-white rounded-full w-10 h-10 md:w-12 md:h-12 p-0 shadow-lg touch-manipulation"
         aria-label="Back to top"
       >
-        <ArrowUp className="h-5 w-5" />
+        <ArrowUp className="h-4 w-4 md:h-5 md:w-5" />
       </Button>
       
       <Footer />

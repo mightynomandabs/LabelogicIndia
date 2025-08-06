@@ -217,9 +217,9 @@ const ProductCard = ({
     <div className={`bg-white rounded-2xl shadow-xl overflow-hidden border-2 transition-all duration-300 hover:shadow-2xl ${
       isSelected ? 'border-brand-purple bg-brand-purple/5' : 'border-transparent hover:border-brand-purple/30'
     }`}>
-      <div className="md:flex">
+      <div className="flex flex-col md:flex-row">
         {/* Image Section */}
-        <div className="md:flex-shrink-0 md:w-72 h-56 md:h-auto overflow-hidden relative">
+        <div className="md:flex-shrink-0 md:w-72 h-48 md:h-auto overflow-hidden relative">
           {/* Image Loading States */}
           {isLoading ? (
             <div className="w-full h-full flex items-center justify-center bg-gray-50">
@@ -261,7 +261,7 @@ const ProductCard = ({
           {/* Selection and Bookmark Overlay */}
           <div className="absolute top-4 left-4 flex gap-3">
             {onSelect && (
-              <div className="flex items-center justify-center w-10 h-10 bg-white/95 rounded-xl shadow-lg">
+              <div className="flex items-center justify-center w-10 h-10 bg-white/95 rounded-xl shadow-lg touch-manipulation">
                 <Checkbox 
                   checked={isSelected}
                   onCheckedChange={onSelect}
@@ -275,7 +275,7 @@ const ProductCard = ({
                 onClick={onBookmark}
                 size="sm"
                 variant="ghost"
-                className="w-10 h-10 bg-white/95 hover:bg-white rounded-xl shadow-lg p-0"
+                className="w-10 h-10 bg-white/95 hover:bg-white rounded-xl shadow-lg p-0 touch-manipulation"
               >
                 {isBookmarked ? (
                   <BookmarkCheck className="h-5 w-5 text-brand-purple fill-brand-purple" />
@@ -295,11 +295,11 @@ const ProductCard = ({
         </div>
         
         {/* Content Section */}
-        <div className="p-8 flex-1">
+        <div className="p-4 md:p-8 flex-1">
           <div className="flex flex-col h-full">
             {/* Header Section */}
             <div className="flex-1">
-              <div className="flex items-center text-sm mb-4">
+              <div className="flex items-center text-sm mb-3 md:mb-4">
                 <Badge variant="outline" className="mr-3 font-medium">
                   {product.category}
                 </Badge>
@@ -307,39 +307,39 @@ const ProductCard = ({
               </div>
               
               <Link to={`/product/${product.id}`} className="hover:text-brand-purple transition-colors">
-                <h2 className="text-2xl font-bold mt-2 mb-4 leading-tight">
+                <h2 className="text-xl md:text-2xl font-bold mt-2 mb-3 md:mb-4 leading-tight">
                   {highlightSearchTerms(product.name)}
                 </h2>
               </Link>
               
-              <p className="text-muted-foreground line-clamp-2 mb-6 text-base leading-relaxed">
+              <p className="text-muted-foreground line-clamp-2 mb-4 md:mb-6 text-sm md:text-base leading-relaxed">
                 {highlightSearchTerms(product.description)}
               </p>
               
               {/* Key Specs Highlight */}
               {product.specs && (
-                <div className="flex flex-wrap gap-3 mb-6">
+                <div className="flex flex-wrap gap-2 md:gap-3 mb-4 md:mb-6">
                   {product.specs.battery && (
-                    <Badge variant="secondary" className="bg-green-100 text-green-800 border-green-200 font-medium">
-                      <Battery className="h-4 w-4 mr-2" />
+                    <Badge variant="secondary" className="bg-green-100 text-green-800 border-green-200 font-medium text-xs md:text-sm">
+                      <Battery className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
                       {product.specs.battery}
                     </Badge>
                   )}
                   {product.specs.display && (
-                    <Badge variant="secondary" className="bg-blue-100 text-blue-800 border-blue-200 font-medium">
-                      <Smartphone className="h-4 w-4 mr-2" />
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800 border-blue-200 font-medium text-xs md:text-sm">
+                      <Smartphone className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
                       {product.specs.display}
                     </Badge>
                   )}
                   {product.specs.camera && (
-                    <Badge variant="secondary" className="bg-purple-100 text-purple-800 border-purple-200 font-medium">
-                      <Camera className="h-4 w-4 mr-2" />
+                    <Badge variant="secondary" className="bg-purple-100 text-purple-800 border-purple-200 font-medium text-xs md:text-sm">
+                      <Camera className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
                       {product.specs.camera}
                     </Badge>
                   )}
                   {product.specs.storage && (
-                    <Badge variant="secondary" className="bg-orange-100 text-orange-800 border-orange-200 font-medium">
-                      <HardDrive className="h-4 w-4 mr-2" />
+                    <Badge variant="secondary" className="bg-orange-100 text-orange-800 border-orange-200 font-medium text-xs md:text-sm">
+                      <HardDrive className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
                       {product.specs.storage}
                     </Badge>
                   )}
@@ -347,51 +347,51 @@ const ProductCard = ({
               )}
               
               {/* Rating and Reviews */}
-              <div className="flex items-center text-sm mb-6">
-                <div className="flex items-center mr-6">
-                  <Star className="h-5 w-5 text-yellow-400 fill-yellow-400 mr-2" />
-                  <span className="font-bold text-lg">{product.rating.toFixed(1)}</span>
+              <div className="flex flex-col sm:flex-row sm:items-center text-sm mb-4 md:mb-6 space-y-2 sm:space-y-0">
+                <div className="flex items-center mr-0 sm:mr-6">
+                  <Star className="h-4 w-4 md:h-5 md:w-5 text-yellow-400 fill-yellow-400 mr-2" />
+                  <span className="font-bold text-base md:text-lg">{product.rating.toFixed(1)}</span>
                 </div>
-                <div className="flex items-center mr-6">
-                  <ThumbsUp className="h-5 w-5 text-muted-foreground mr-2" />
+                <div className="flex items-center mr-0 sm:mr-6">
+                  <ThumbsUp className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground mr-2" />
                   <span className="font-medium">{product.reviewCount.toLocaleString()} reviews</span>
                 </div>
                 <div className="flex items-center text-muted-foreground">
-                  <CalendarDays className="h-5 w-5 mr-2" />
+                  <CalendarDays className="h-4 w-4 md:h-5 md:w-5 mr-2" />
                   <span className="font-medium">Updated {product.lastUpdated}</span>
                 </div>
               </div>
             </div>
             
             {/* Sentiment Analysis Section */}
-            <div className="mt-8 space-y-6">
-              <div className="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200 rounded-xl p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-brand-black">Customer Sentiment</h3>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-green-500 rounded-full"></div>
-                      <span className="text-sm font-bold text-green-700">
+            <div className="mt-6 md:mt-8 space-y-4 md:space-y-6">
+              <div className="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200 rounded-xl p-4 md:p-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                  <h3 className="text-base md:text-lg font-bold text-brand-black mb-2 md:mb-0">Customer Sentiment</h3>
+                  <div className="flex flex-wrap items-center gap-2 md:gap-4">
+                    <div className="flex items-center gap-1 md:gap-2">
+                      <div className="w-3 h-3 md:w-4 md:h-4 bg-green-500 rounded-full"></div>
+                      <span className="text-xs md:text-sm font-bold text-green-700">
                         {Math.round(product.sentiment.positive * 100)}% Positive
                       </span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
-                      <span className="text-sm font-bold text-gray-600">
+                    <div className="flex items-center gap-1 md:gap-2">
+                      <div className="w-3 h-3 md:w-4 md:h-4 bg-gray-400 rounded-full"></div>
+                      <span className="text-xs md:text-sm font-bold text-gray-600">
                         {Math.round(product.sentiment.neutral * 100)}% Neutral
                       </span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-red-500 rounded-full"></div>
-                      <span className="text-sm font-bold text-red-700">
+                    <div className="flex items-center gap-1 md:gap-2">
+                      <div className="w-3 h-3 md:w-4 md:h-4 bg-red-500 rounded-full"></div>
+                      <span className="text-xs md:text-sm font-bold text-red-700">
                         {Math.round(product.sentiment.negative * 100)}% Negative
                       </span>
                     </div>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-6">
-                  <div className="w-20 h-20">
+                <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+                  <div className="w-16 h-16 md:w-20 md:h-20">
                     <SentimentPieChart 
                       positive={product.sentiment.positive}
                       neutral={product.sentiment.neutral}
@@ -399,31 +399,31 @@ const ProductCard = ({
                       keyPhrases={product.keyPhrases}
                     />
                   </div>
-                  <div className="flex-1">
-                    <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex-1 w-full">
+                    <div className="flex flex-wrap gap-1 md:gap-2 mb-3 md:mb-4">
                       {product.keyPhrases.map((phrase, index) => (
-                        <Badge key={index} variant="secondary" className="text-sm font-medium">
+                        <Badge key={index} variant="secondary" className="text-xs md:text-sm font-medium">
                           {highlightSearchTerms(phrase)}
                         </Badge>
                       ))}
                     </div>
                     
                     {/* Action Buttons */}
-                    <div className="flex gap-3">
+                    <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
                       <Button
                         onClick={handleTTS}
-                        className="text-sm flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-medium px-4 py-2"
+                        className="text-xs md:text-sm flex items-center bg-brand-purple hover:bg-brand-purple-dark text-white font-medium px-3 md:px-4 py-2 touch-manipulation"
                         size="sm"
                       >
-                        {isPlaying ? <Pause className="h-4 w-4 mr-2" /> : <Headphones className="h-4 w-4 mr-2" />}
+                        {isPlaying ? <Pause className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" /> : <Headphones className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />}
                         {isPlaying ? "Stop" : "Listen to Reviews"}
                       </Button>
                       
                       {isPlaying && (
                         <ToggleGroup type="single" value={playbackRate.toString()} onValueChange={(value) => value && changePlaybackRate(parseFloat(value))}>
-                          <ToggleGroupItem value="0.5" size="sm" className="text-sm">0.5x</ToggleGroupItem>
-                          <ToggleGroupItem value="1" size="sm" className="text-sm">1x</ToggleGroupItem>
-                          <ToggleGroupItem value="1.5" size="sm" className="text-sm">1.5x</ToggleGroupItem>
+                          <ToggleGroupItem value="0.5" size="sm" className="text-xs">0.5x</ToggleGroupItem>
+                          <ToggleGroupItem value="1" size="sm" className="text-xs">1x</ToggleGroupItem>
+                          <ToggleGroupItem value="1.5" size="sm" className="text-xs">1.5x</ToggleGroupItem>
                         </ToggleGroup>
                       )}
                     </div>
@@ -433,15 +433,15 @@ const ProductCard = ({
               
               {/* Detailed Insights Toggle */}
               <div className="flex justify-between items-center">
-                <h3 className="text-lg font-bold text-brand-black">Detailed Insights</h3>
+                <h3 className="text-base md:text-lg font-bold text-brand-black">Detailed Insights</h3>
                 <Button 
                   variant="ghost" 
                   size="sm" 
                   onClick={() => setShowInsights(!showInsights)}
-                  className="flex items-center text-sm text-brand-purple hover:text-brand-purple-dark font-medium"
+                  className="flex items-center text-xs md:text-sm text-brand-purple hover:text-brand-purple-dark font-medium touch-manipulation"
                 >
                   {showInsights ? "Hide Details" : "Show Details"}
-                  {showInsights ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
+                  {showInsights ? <ChevronUp className="ml-1 md:ml-2 h-3 w-3 md:h-4 md:w-4" /> : <ChevronDown className="ml-1 md:ml-2 h-3 w-3 md:h-4 md:w-4" />}
                 </Button>
               </div>
               

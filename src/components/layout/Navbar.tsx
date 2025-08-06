@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Search, Home, Info, Mail, Grid3X3, User, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import QuickLinks from "@/components/ui/quick-links";
@@ -47,15 +47,50 @@ const Navbar = () => {
     );
   };
 
+  // Mobile menu item component
+  const MobileMenuItem = ({ 
+    to, 
+    icon: Icon, 
+    children, 
+    onClick 
+  }: { 
+    to: string; 
+    icon: React.ComponentType<{ className?: string }>; 
+    children: React.ReactNode;
+    onClick?: () => void;
+  }) => {
+    const isActive = isActiveLink(to);
+    
+    return (
+      <Link
+        to={to}
+        onClick={onClick}
+        className={`
+          flex items-center justify-between w-full px-4 py-4 rounded-lg transition-all duration-200
+          hover:bg-brand-yellow-dark/50 active:bg-brand-yellow-dark
+          focus:outline-none focus:ring-2 focus:ring-brand-purple/50 focus:ring-offset-1
+          min-h-[56px] touch-manipulation
+          ${isActive ? 'bg-brand-purple/10 text-brand-purple' : 'text-brand-black/80'}
+        `}
+      >
+        <div className="flex items-center space-x-3">
+          <Icon className={`h-5 w-5 ${isActive ? 'text-brand-purple' : 'text-brand-black/60'}`} />
+          <span className="font-medium">{children}</span>
+        </div>
+        <ChevronRight className="h-4 w-4 text-brand-black/40" />
+      </Link>
+    );
+  };
+
   return (
-    <nav className="sticky top-0 z-50 py-3 px-6 md:px-8 w-full bg-brand-yellow/95 backdrop-blur-sm shadow-md border-b border-brand-black/10">
+    <nav className="sticky top-0 z-50 py-3 px-4 md:px-6 lg:px-8 w-full bg-brand-yellow/95 backdrop-blur-sm shadow-md border-b border-brand-black/10">
       <div className="flex justify-between items-center max-w-7xl mx-auto">
         {/* Logo */}
         <Link to="/" className="flex items-center">
           <img
             src="/labelogic-logo.png" 
             alt="Labelogic Logo" 
-            className="h-10 md:h-12"
+            className="h-8 md:h-10 lg:h-12"
           />
         </Link>
 
@@ -85,9 +120,10 @@ const Navbar = () => {
 
         {/* Mobile Navigation Toggle */}
         <button
-          className="lg:hidden text-brand-black p-2 rounded-lg hover:bg-brand-yellow-dark/50 transition-colors duration-200"
+          className="lg:hidden text-brand-black p-2 rounded-lg hover:bg-brand-yellow-dark/50 transition-colors duration-200 touch-manipulation"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle navigation menu"
+          aria-expanded={isOpen}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -96,77 +132,74 @@ const Navbar = () => {
       {/* Mobile Navigation Menu */}
       {isOpen && (
         <div className="lg:hidden pt-4 pb-6 animate-fade-in bg-brand-yellow/95 backdrop-blur-sm border-t border-brand-black/10 mt-3 shadow-lg">
-          <div className="max-w-7xl mx-auto px-6 space-y-4">
+          <div className="max-w-7xl mx-auto px-4 space-y-4">
             {/* Quick Links Section */}
             <div className="border-b border-brand-black/10 pb-4">
               <QuickLinks variant="mobile" />
             </div>
             
             {/* Main Navigation Links */}
-            <div className="flex flex-col space-y-1">
-              <Link 
+            <div className="space-y-2">
+              <MobileMenuItem 
                 to="/" 
-                className="text-brand-black/80 font-medium transition-all duration-200 px-4 py-3 rounded-lg hover:bg-brand-yellow-dark/50 hover:text-brand-black"
+                icon={Home}
                 onClick={() => setIsOpen(false)}
               >
                 Home
-              </Link>
-              <Link 
+              </MobileMenuItem>
+              <MobileMenuItem 
                 to="/search-examples" 
-                className="text-brand-black/80 font-medium transition-all duration-200 px-4 py-3 rounded-lg hover:bg-brand-yellow-dark/50 hover:text-brand-black"
+                icon={Grid3X3}
                 onClick={() => setIsOpen(false)}
               >
                 Search Examples
-              </Link>
-              <Link 
+              </MobileMenuItem>
+              <MobileMenuItem 
                 to="/about-us" 
-                className="text-brand-black/80 font-medium transition-all duration-200 px-4 py-3 rounded-lg hover:bg-brand-yellow-dark/50 hover:text-brand-black"
+                icon={Info}
                 onClick={() => setIsOpen(false)}
               >
                 About Us
-              </Link>
-              <Link 
+              </MobileMenuItem>
+              <MobileMenuItem 
                 to="/contact-us" 
-                className="text-brand-black/80 font-medium transition-all duration-200 px-4 py-3 rounded-lg hover:bg-brand-yellow-dark/50 hover:text-brand-black"
+                icon={Mail}
                 onClick={() => setIsOpen(false)}
               >
                 Contact Us
-              </Link>
-              <Link 
-                to="/accessibility" 
-                className="text-brand-black/80 font-medium transition-all duration-200 px-4 py-3 rounded-lg hover:bg-brand-yellow-dark/50 hover:text-brand-black"
-                onClick={() => setIsOpen(false)}
-              >
-                Accessibility
-              </Link>
+              </MobileMenuItem>
             </div>
             
             {/* Action Buttons */}
             <div className="border-t border-brand-black/10 pt-4 space-y-2">
-              <Link 
+              <MobileMenuItem 
                 to="/subscriptions" 
-                className="text-brand-black/80 font-medium transition-all duration-200 px-4 py-3 rounded-lg hover:bg-brand-yellow-dark/50 hover:text-brand-black block"
+                icon={User}
                 onClick={() => setIsOpen(false)}
               >
                 Subscriptions
-              </Link>
-              <Link 
+              </MobileMenuItem>
+              <MobileMenuItem 
                 to="/subscription" 
-                className="text-brand-black/80 font-medium transition-all duration-200 px-4 py-3 rounded-lg hover:bg-brand-yellow-dark/50 hover:text-brand-black block"
+                icon={User}
                 onClick={() => setIsOpen(false)}
               >
                 Subscribe
-              </Link>
+              </MobileMenuItem>
               <Link 
                 to="/privacy-policy" 
-                className="text-brand-black/80 font-medium transition-all duration-200 px-4 py-3 rounded-lg hover:bg-brand-yellow-dark/50 hover:text-brand-black block"
+                className="flex items-center justify-between w-full px-4 py-4 rounded-lg transition-all duration-200 hover:bg-brand-yellow-dark/50 active:bg-brand-yellow-dark focus:outline-none focus:ring-2 focus:ring-brand-purple/50 focus:ring-offset-1 min-h-[56px] touch-manipulation text-brand-black/80"
                 onClick={() => setIsOpen(false)}
               >
-                Privacy Policy
+                <div className="flex items-center space-x-3">
+                  <Info className="h-5 w-5 text-brand-black/60" />
+                  <span className="font-medium">Privacy Policy</span>
+                </div>
+                <ChevronRight className="h-4 w-4 text-brand-black/40" />
               </Link>
               <Button 
                 variant="default" 
-                className="bg-brand-purple text-white hover:bg-brand-purple-dark mx-4 mt-2 py-3 rounded-lg font-medium shadow-sm w-full"
+                className="bg-brand-purple text-white hover:bg-brand-purple-dark mx-4 mt-4 py-4 rounded-lg font-medium shadow-sm w-full min-h-[56px] touch-manipulation"
                 onClick={() => setIsOpen(false)}
               >
                 Sign Up

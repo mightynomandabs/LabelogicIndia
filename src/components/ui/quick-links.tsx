@@ -8,7 +8,8 @@ import {
   Grid3X3, 
   User, 
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  ChevronRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -164,7 +165,7 @@ const QuickLinks: React.FC<QuickLinksProps> = ({
     <div className="border border-brand-black/10 rounded-lg bg-white/50">
       <button
         onClick={() => setIsMobileExpanded(!isMobileExpanded)}
-        className="w-full flex items-center justify-between px-4 py-3 text-left"
+        className="w-full flex items-center justify-between px-4 py-4 text-left touch-manipulation min-h-[56px]"
         aria-expanded={isMobileExpanded}
         aria-controls="mobile-quick-links"
       >
@@ -198,27 +199,30 @@ const QuickLinks: React.FC<QuickLinksProps> = ({
                   setIsMobileExpanded(false);
                 }}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-3 rounded-md transition-all duration-200",
+                  "flex items-center justify-between w-full px-4 py-4 rounded-lg transition-all duration-200",
                   "hover:bg-brand-yellow-dark/50 active:bg-brand-yellow-dark",
                   "focus:outline-none focus:ring-2 focus:ring-brand-purple/50 focus:ring-offset-1",
-                  "min-h-[44px] touch-manipulation",
+                  "min-h-[56px] touch-manipulation",
                   isActive && "bg-brand-purple/10 text-brand-purple",
                   isLinkLoading && "pointer-events-none opacity-75"
                 )}
                 role="button"
                 tabIndex={0}
               >
-                <IconComponent 
-                  className={cn(
-                    "h-5 w-5 transition-colors duration-200",
-                    isActive ? "text-brand-purple" : "text-brand-black/60"
-                  )} 
-                />
-                <span className="font-medium text-brand-black">
-                  {link.label}
-                </span>
+                <div className="flex items-center space-x-3">
+                  <IconComponent 
+                    className={cn(
+                      "h-5 w-5 transition-colors duration-200",
+                      isActive ? "text-brand-purple" : "text-brand-black/60"
+                    )} 
+                  />
+                  <span className="font-medium text-brand-black">
+                    {link.label}
+                  </span>
+                </div>
+                <ChevronRight className="h-4 w-4 text-brand-black/40" />
                 {isLinkLoading && (
-                  <div className="ml-auto">
+                  <div className="ml-2">
                     <div className="w-4 h-4 border-2 border-brand-purple/30 border-t-brand-purple rounded-full animate-spin" />
                   </div>
                 )}
@@ -226,6 +230,36 @@ const QuickLinks: React.FC<QuickLinksProps> = ({
             );
           })}
         </div>
+      </div>
+    </div>
+  );
+
+  // Footer Layout
+  const FooterLayout = () => (
+    <div className="space-y-4">
+      <h3 className="font-semibold text-brand-black text-lg">Quick Links</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {sortedLinks.map((link) => {
+          const IconComponent = link.icon;
+          const isActive = isActiveLink(link.href);
+          
+          return (
+            <Link
+              key={link.id}
+              to={link.href}
+              className={cn(
+                "flex items-center gap-2 px-3 py-2 rounded-md transition-all duration-200",
+                "hover:bg-brand-yellow-dark/50 hover:text-brand-purple",
+                "focus:outline-none focus:ring-2 focus:ring-brand-purple/50 focus:ring-offset-1",
+                "min-h-[44px] touch-manipulation",
+                isActive && "text-brand-purple font-medium"
+              )}
+            >
+              <IconComponent className="h-4 w-4" />
+              <span className="text-sm">{link.label}</span>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
@@ -241,6 +275,13 @@ const QuickLinks: React.FC<QuickLinksProps> = ({
       <div className="md:hidden">
         <MobileLayout />
       </div>
+      
+      {/* Footer Layout */}
+      {variant === 'footer' && (
+        <div className="md:hidden">
+          <FooterLayout />
+        </div>
+      )}
     </div>
   );
 };
