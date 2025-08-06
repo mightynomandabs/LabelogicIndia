@@ -104,6 +104,26 @@
     input, textarea, select {
       font-size: 16px; /* Prevents zoom on iOS */
     }
+    
+    /* Fix mobile navigation positioning */
+    nav {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 50 !important;
+    }
+    
+    /* Ensure mobile menu doesn't cover header */
+    nav > div:last-child {
+      position: relative !important;
+      z-index: 40 !important;
+    }
+    
+    /* Better logo visibility on mobile */
+    nav img {
+      max-height: 40px;
+      width: auto;
+      object-fit: contain;
+    }
   }
 
   .search-container {

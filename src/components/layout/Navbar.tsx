@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Menu, X, Search, Home, Info, Mail, Grid3X3, User, ChevronRight } from "lucide-react";
+import { Menu, X, Search, Home, Info, Mail, Grid3X3, User, ChevronRight, Accessibility } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import QuickLinks from "@/components/ui/quick-links";
@@ -86,11 +86,15 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 py-3 px-4 md:px-6 lg:px-8 w-full bg-brand-yellow/95 backdrop-blur-sm shadow-md border-b border-brand-black/10">
       <div className="flex justify-between items-center max-w-7xl mx-auto">
         {/* Logo */}
-        <Link to="/" className="flex items-center">
+        <Link to="/" className="flex items-center flex-shrink-0">
           <img
             src="/labelogic-logo.png" 
             alt="Labelogic Logo" 
-            className="h-8 md:h-10 lg:h-12"
+            className="h-10 md:h-12 lg:h-14 w-auto"
+            onError={(e) => {
+              console.error('Logo failed to load, using fallback');
+              e.currentTarget.src = '/labelogic-logo.svg';
+            }}
           />
         </Link>
 
@@ -120,7 +124,7 @@ const Navbar = () => {
 
         {/* Mobile Navigation Toggle */}
         <button
-          className="lg:hidden text-brand-black p-2 rounded-lg hover:bg-brand-yellow-dark/50 transition-colors duration-200 touch-manipulation"
+          className="lg:hidden text-brand-black p-2 rounded-lg hover:bg-brand-yellow-dark/50 transition-colors duration-200 touch-manipulation flex-shrink-0"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle navigation menu"
           aria-expanded={isOpen}
@@ -131,7 +135,7 @@ const Navbar = () => {
 
       {/* Mobile Navigation Menu */}
       {isOpen && (
-        <div className="lg:hidden pt-4 pb-6 animate-fade-in bg-brand-yellow/95 backdrop-blur-sm border-t border-brand-black/10 mt-3 shadow-lg">
+        <div className="lg:hidden pt-4 pb-6 animate-fade-in bg-brand-yellow/95 backdrop-blur-sm border-t border-brand-black/10 mt-3 shadow-lg relative z-40">
           <div className="max-w-7xl mx-auto px-4 space-y-4">
             {/* Quick Links Section */}
             <div className="border-b border-brand-black/10 pb-4">
@@ -167,6 +171,13 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
               >
                 Contact Us
+              </MobileMenuItem>
+              <MobileMenuItem 
+                to="/accessibility" 
+                icon={Accessibility}
+                onClick={() => setIsOpen(false)}
+              >
+                Accessibility
               </MobileMenuItem>
             </div>
             
