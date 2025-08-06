@@ -66,16 +66,16 @@ const Navbar = () => {
         to={to}
         onClick={onClick}
         className={`
-          flex items-center justify-between w-full px-4 py-4 rounded-lg transition-all duration-200
+          flex items-center justify-between w-full px-4 py-3 rounded-lg transition-all duration-200
           hover:bg-brand-yellow-dark/50 active:bg-brand-yellow-dark
           focus:outline-none focus:ring-2 focus:ring-brand-purple/50 focus:ring-offset-1
-          min-h-[56px] touch-manipulation
+          min-h-[48px] touch-manipulation
           ${isActive ? 'bg-brand-purple/10 text-brand-purple' : 'text-brand-black/80'}
         `}
       >
         <div className="flex items-center space-x-3">
           <Icon className={`h-5 w-5 ${isActive ? 'text-brand-purple' : 'text-brand-black/60'}`} />
-          <span className="font-medium">{children}</span>
+          <span className="font-medium text-sm">{children}</span>
         </div>
         <ChevronRight className="h-4 w-4 text-brand-black/40" />
       </Link>
@@ -135,15 +135,10 @@ const Navbar = () => {
 
       {/* Mobile Navigation Menu */}
       {isOpen && (
-        <div className="lg:hidden pt-4 pb-6 animate-fade-in bg-brand-yellow/95 backdrop-blur-sm border-t border-brand-black/10 mt-3 shadow-lg relative z-40">
-          <div className="max-w-7xl mx-auto px-4 space-y-4">
-            {/* Quick Links Section */}
-            <div className="border-b border-brand-black/10 pb-4">
-              <QuickLinks variant="mobile" />
-            </div>
-            
+        <div className="lg:hidden pt-3 pb-4 animate-fade-in bg-brand-yellow/95 backdrop-blur-sm border-t border-brand-black/10 mt-3 shadow-lg relative z-40">
+          <div className="max-w-7xl mx-auto px-4 space-y-3">
             {/* Main Navigation Links */}
-            <div className="space-y-2">
+            <div className="space-y-1">
               <MobileMenuItem 
                 to="/" 
                 icon={Home}
@@ -181,8 +176,8 @@ const Navbar = () => {
               </MobileMenuItem>
             </div>
             
-            {/* Action Buttons */}
-            <div className="border-t border-brand-black/10 pt-4 space-y-2">
+            {/* Account & Actions */}
+            <div className="border-t border-brand-black/10 pt-3 space-y-1">
               <MobileMenuItem 
                 to="/subscriptions" 
                 icon={User}
@@ -197,20 +192,9 @@ const Navbar = () => {
               >
                 Subscribe
               </MobileMenuItem>
-              <Link 
-                to="/privacy-policy" 
-                className="flex items-center justify-between w-full px-4 py-4 rounded-lg transition-all duration-200 hover:bg-brand-yellow-dark/50 active:bg-brand-yellow-dark focus:outline-none focus:ring-2 focus:ring-brand-purple/50 focus:ring-offset-1 min-h-[56px] touch-manipulation text-brand-black/80"
-                onClick={() => setIsOpen(false)}
-              >
-                <div className="flex items-center space-x-3">
-                  <Info className="h-5 w-5 text-brand-black/60" />
-                  <span className="font-medium">Privacy Policy</span>
-                </div>
-                <ChevronRight className="h-4 w-4 text-brand-black/40" />
-              </Link>
               <Button 
                 variant="default" 
-                className="bg-brand-purple text-white hover:bg-brand-purple-dark mx-4 mt-4 py-4 rounded-lg font-medium shadow-sm w-full min-h-[56px] touch-manipulation"
+                className="bg-brand-purple text-white hover:bg-brand-purple-dark mx-4 mt-3 py-3 rounded-lg font-medium shadow-sm w-full min-h-[48px] touch-manipulation"
                 onClick={() => setIsOpen(false)}
               >
                 Sign Up
